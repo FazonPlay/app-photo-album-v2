@@ -25,16 +25,14 @@ export const refreshPhotoList = async (page = 1) => {
 
     const photos = data.results || [];
     photoList.innerHTML = photos.map(photo => `
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <img src="${photo.thumbnail_path || photo.file_path}" class="card-img-top" alt="${photo.title}">
-                <div class="card-body">
-                    <h5 class="card-title">${photo.title}</h5>
-                    <button class="btn btn-danger btn-sm delete-photo-btn" data-id="${photo.photo_id}">Delete</button>
-                </div>
-            </div>
+    <div class="photo-card">
+        <img src="${photo.thumbnail_path || photo.file_path}" alt="${photo.title}">
+        <div class="card-body">
+            <div class="card-title">${photo.title}</div>
+            <button class="delete-photo-btn" data-id="${photo.photo_id}">Delete</button>
         </div>
-    `).join('');
+    </div>
+`).join('');
 
     setupDeletePhotoButtons();
 

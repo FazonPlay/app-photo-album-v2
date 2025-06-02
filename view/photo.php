@@ -1,46 +1,42 @@
+<div class="dashboard-container">
 <?php require "_partials/sidebar.php"; ?>
-<div class="row">
-    <div class="col">
-        <h1 class="pt-2 pb-2 text-center">All Photos</h1>
-<!--        --><?php //if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'):  // THIS WONT WORK AND NORMAL USERS WONT BE ABLE TO ADD PHOTOS?>
-        <select id="user-select" class="form-select mb-3">
-            <option value="">All Users</option>
-            <?php foreach ($users as $user): ?>
-                <option value="<?php echo $user['user_id']; ?>"><?php echo htmlspecialchars($user['username']); ?></option>
-            <?php endforeach; ?>
-        </select>
-<!--        --><?php //endif; ?>
-        <form id="add-photo-form" enctype="multipart/form-data" method="post" action="">
-            <div class="mb-3">
-                <label for="photo-title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="photo-title" name="title" required>
-            </div>
-            <div class="mb-3">
-                <label for="photo-file" class="form-label">Photo</label>
-                <input type="file" class="form-control" id="photo-file" name="photo" accept="image/*" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Photo</button>
-        </form>
-        <div id="photo-errors" class="alert alert-danger d-none"></div>
-        <div class="row mt-4" id="photo-list"></div>
+    <div class="photo-page">
+        <div class="photo-header">
+         <h1>Photo Gallery</h1>
+            <form id="add-photo-form" enctype="multipart/form-data" method="post" action="">
+                <div class="form-row">
+                    <input type="text" id="photo-title" name="title" placeholder="Photo Title" required>
+                    <input type="file" id="photo-file" name="photo" accept="image/*" required>
+                    <button type="submit" class="btn-primary">Add Photo</button>
+                </div>
+            </form>
+            <div id="photo-errors" class="alert d-none"></div>
+            <select id="user-select" class="user-select">
+                <option value="">All Users</option>
+                <?php foreach ($users as $user): ?>
+                    <option value="<?php echo $user['user_id']; ?>"><?php echo htmlspecialchars($user['username']); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="photo-gallery" id="photo-list"></div>
         <nav>
-            <ul class="pagination justify-content-center" id="photo-pagination"></ul>
+            <ul class="pagination" id="photo-pagination"></ul>
         </nav>
     </div>
 </div>
-
+<link rel="stylesheet" href="assets/css/photos_custom.css">
 <script src="./assets/js/services/photo.js" type="module"></script>
 <script src="./assets/js/components/photos.js" type="module"></script>
 <script type="module">
     import { refreshPhotoList, handleAddPhoto } from './assets/js/components/photos.js';
     document.addEventListener('DOMContentLoaded', () => {
         refreshPhotoList(1);
-
-        // User select event
-        document.getElementById('user-select').addEventListener('change', () => {
-            refreshPhotoList(1);
-        });
-
+        const userSelect = document.getElementById('user-select');
+        if (userSelect) {
+            userSelect.addEventListener('change', () => {
+                refreshPhotoList(1);
+            });
+        }
         handleAddPhoto();
     });
 </script>
