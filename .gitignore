@@ -1,0 +1,4 @@
+.idea/
+vendor/
+photo-album.sql
+.env
