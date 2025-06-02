@@ -2,15 +2,15 @@
 <div class="row">
     <div class="col">
         <h1 class="pt-2 pb-2 text-center">All Photos</h1>
-        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+<!--        --><?php //if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'):  // THIS WONT WORK AND NORMAL USERS WONT BE ABLE TO ADD PHOTOS?>
         <select id="user-select" class="form-select mb-3">
             <option value="">All Users</option>
             <?php foreach ($users as $user): ?>
                 <option value="<?php echo $user['user_id']; ?>"><?php echo htmlspecialchars($user['username']); ?></option>
             <?php endforeach; ?>
         </select>
-        <?php endif; ?>
-        <form id="add-photo-form" enctype="multipart/form-data">
+<!--        --><?php //endif; ?>
+        <form id="add-photo-form" enctype="multipart/form-data" method="post" action="">
             <div class="mb-3">
                 <label for="photo-title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="photo-title" name="title" required>

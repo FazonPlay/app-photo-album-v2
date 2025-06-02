@@ -1,4 +1,3 @@
-// assets/js/services/album.js
 export async function getAlbums(page = 1, limit = 10) {
     try {
         const response = await fetch(`index.php?component=albums&page=${page}&limit=${limit}`, {

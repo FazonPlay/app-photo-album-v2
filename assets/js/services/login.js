@@ -1,25 +1,17 @@
-// assets/js/services/login.js
-export async function login(email, password) {
-    try {
-        const response = await fetch('/BigProjects/Fullstack3Month/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
-        });
+export const login = async (email, password) => {
+    const formData = new URLSearchParams();
+    formData.append('email', email);
+    formData.append('password', password);
 
-        if (response.redirected) {
-            return { authentication: true, redirectUrl: response.url };
-        }
+    console.log('Sending data:', {email, password}); // Debug what's being sent
 
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Login error:', error);
-        return {
-            errors: ['Connection error. Please try again.']
-        };
-    }
+    const response = await fetch('index.php?component=login', {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        method: 'POST',
+        body: formData
+    })
+    return await response.json()
+
 }

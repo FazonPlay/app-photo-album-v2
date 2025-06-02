@@ -53,32 +53,7 @@
 
 <?php else: ?>
     <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="user-info">
-                <div class="user-avatar">
-                    <?php if (!empty($user->profile_picture)): ?>
-                        <img src="<?php echo htmlspecialchars($user->profile_picture, ENT_QUOTES, 'UTF-8'); ?>" alt="Profile">
-                    <?php else: ?>
-                        <div class="default-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    <?php endif; ?>
-                </div>
-                <h3><?php echo htmlspecialchars($user->username ?? '', ENT_QUOTES, 'UTF-8'); ?></h3>
-            </div>
-
-            <nav class="dashboard-nav">
-                <ul>
-                    <li class="active"><a href="?component=landing"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="?component=albums"><i class="fas fa-images"></i> My Albums</a></li>
-                    <li><a href="?component=photo"><i class="fas fa-camera"></i> All Photos</a></li>
-                    <li><a href="?component=favorites"><i class="fas fa-heart"></i> Favorites</a></li>
-                    <li><a href="?component=shared"><i class="fas fa-share-alt"></i> Shared with Me</a></li>
-                    <li><a href="?component=profile"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
-                </ul>
-            </nav>
-        </aside>
-
+        <?php require "_partials/sidebar.php"; ?>
         <main class="main-content">
             <div class="dashboard-header">
                 <h1>Welcome back, <?php echo htmlspecialchars($user->username ?? 'User', ENT_QUOTES, 'UTF-8'); ?>!</h1>

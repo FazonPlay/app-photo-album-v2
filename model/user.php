@@ -18,20 +18,22 @@ function getUser(PDO $pdo, int $id): array|string
     return $res;
 }
 
-function insertUser(PDO $pdo, string $username, string $password): bool|string
+function insertUser(PDO $pdo, string $username, string $email, string $password_hash, string $roles, int $is_active = 1): bool|string
 {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $query = "INSERT INTO users (username, password) VALUES (:username, :password)";
+    $query = "INSERT INTO users (username, email, password_hash, roles, is_active) VALUES (:username, :email, :password_hash, :roles, :is_active)";
     $prep = $pdo->prepare($query);
-    $prep->bindValue(':password', $password);
     $prep->bindValue(':username', $username);
+    $prep->bindValue(':email', $email);
+    $prep->bindValue(':password_hash', $password_hash);
+    $prep->bindValue(':roles', $roles);
+    $prep->bindValue(':is_active', $is_active, PDO::PARAM_INT);
     try {
         $prep->execute();
     } catch (PDOException $e) {
-        return "Erreur: " . $e->getCode() . ' : ' . $e->getMessage();
+        return "Error: " . $e->getCode() . " - " . $e->getMessage();
     }
     $prep->closeCursor();
-
     return true;
 }
 
