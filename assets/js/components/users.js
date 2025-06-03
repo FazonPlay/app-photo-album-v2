@@ -1,9 +1,9 @@
-import {createAccount, getUsers, removeUser, updateUser} from "../services/user.js";
+import { createAccount, getUsers, removeUser, updateUser } from "../services/user.js";
 import { showToast } from "./shared/toast.js";
 
 export const refreshList = async (page) => {
     const spinner = document.querySelector('#spinner');
-    const listElement = document.querySelector('#list-users');
+    const listElement = document.querySelector('#users-list'); // fixed selector
 
     spinner.classList.remove('d-none');
 
@@ -12,27 +12,29 @@ export const refreshList = async (page) => {
     const listContent = [];
 
     for (let i = 0; i < data.results.length; i++) {
+        const user = data.results[i];
         listContent.push(`<tr>
-                        <td>${data.results[i].id}</td>
-                        <td>${data.results[i].username}</td>
-                        <td>${data.results[i].is_admin === 0 ? 'User' : 'Admin'}</td>
-                        <td>
-                            <a href="index.php?component=user&id=${data.results[i].id}">
-                                <i class="fa fa-edit text-success"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="#" class="delete-user" data-id="${data.results[i].id}">
-                                <i class="fa fa-trash text-danger"></i>
-                            </a>
-                        </td>
-                    </tr>`);
+            <td>${user.user_id}</td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>${user.registration_date ?? ''}</td>
+            <td>${user.last_login ?? ''}</td>
+            <td>${user.roles}</td>
+            <td>${user.is_active == 1 ? 'Active' : 'Inactive'}</td>
+            <td>
+                <a href="index.php?component=user&id=${user.user_id}">
+                    <i class="fa fa-edit text-success"></i>
+                </a>
+                <a href="#" class="delete-user" data-id="${user.user_id}">
+                    <i class="fa fa-trash text-danger"></i>
+                </a>
+            </td>
+        </tr>`);
     }
 
+    listElement.innerHTML = listContent.join('');
 
-    listElement.querySelector('tbody').innerHTML = listContent.join('');
-
-    document.querySelector('#pagination').innerHTML = getPagination(data.count.total);
+    document.querySelector('#pagination').innerHTML = getPagination(data.count);
 
     handlePaginationNavigation(page);
 

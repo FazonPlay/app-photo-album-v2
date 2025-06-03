@@ -9,12 +9,10 @@ function getUser(PDO $pdo, int $id): array|string
     try {
         $prep->execute();
     } catch (PDOException $e) {
-        return " erreur : " . $e->getCode() . ' :</b> ' . $e->getMessage();
+        return "Error: " . $e->getCode() . " - " . $e->getMessage();
     }
-
-    $res = $prep->fetch();
+    $res = $prep->fetch(PDO::FETCH_ASSOC);
     $prep->closeCursor();
-
     return $res;
 }
 
@@ -37,40 +35,36 @@ function insertUser(PDO $pdo, string $username, string $email, string $password_
     return true;
 }
 
-
 function updateUser(
     PDO     $pdo,
     int     $id,
     string  $username,
-    ?string $password = null,
+    ?string $password = null
 ): bool|string
 {
-
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $query = "UPDATE users SET username = :username WHERE id = :id";
+    $query = "UPDATE users SET username = :username WHERE user_id = :id";
     $prep = $pdo->prepare($query);
     $prep->bindValue(':id', $id, PDO::PARAM_INT);
     $prep->bindValue(':username', $username);
     try {
         $prep->execute();
     } catch (PDOException $e) {
-        return " erreur : " . $e->getCode() . ' :</b> ' . $e->getMessage();
+        return "Error: " . $e->getCode() . " - " . $e->getMessage();
     }
     $prep->closeCursor();
 
     if (null !== $password) {
-        $query = "UPDATE users SET password = :password WHERE id = :id";
+        $query = "UPDATE users SET password_hash = :password WHERE user_id = :id";
         $prep = $pdo->prepare($query);
         $prep->bindValue(':id', $id, PDO::PARAM_INT);
         $prep->bindValue(':password', $password);
         try {
             $prep->execute();
         } catch (PDOException $e) {
-            return " erreur : " . $e->getCode() . ' :</b> ' . $e->getMessage();
+            return "Error: " . $e->getCode() . " - " . $e->getMessage();
         }
         $prep->closeCursor();
     }
-
-
     return true;
 }
