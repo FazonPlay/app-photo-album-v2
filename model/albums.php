@@ -41,3 +41,4 @@ function deleteAlbum(PDO $pdo, int $albumId): bool|string {
         return "Error: " . $e->getMessage();
     }
 }
+

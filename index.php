@@ -31,14 +31,14 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
     exit();
 }
 
-// For regular page loads, determine the component and load it BEFORE rendering HTML
+// for regular page loads, determine the component and load it BEFORE rendering HTML
 $componentName = !empty($_GET['component'])
     ? htmlspecialchars($_GET['component'], ENT_QUOTES, 'UTF-8')
     : 'landing';
 
 ob_start();
 
-// Logic to determine which controller to load
+// logic to determine which controller to load
 $loadController = true;
 switch ($componentName) {
     case 'login':

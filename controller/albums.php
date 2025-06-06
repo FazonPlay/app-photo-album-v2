@@ -2,6 +2,7 @@
 registerCss("assets/css/dashboard.css");
 require "model/albums.php";
 
+
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
         $albumId = intval($_POST['id']);
