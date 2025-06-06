@@ -7,7 +7,7 @@ require("_partials/errors.php");
         <div class="dashboard-header">
             <h1>User Management</h1>
             <div class="actions">
-                <a href="/BigProjects/Fullstack3Month/admin/users/new" class="btn"><i class="fas fa-plus"></i> Add User</a>
+                <a href="./index.php?component=user" class="btn"><i class="fas fa-plus"></i> Add User</a>
                 <button id="refresh-users" class="btn btn-secondary"><i class="fas fa-sync"></i> Refresh</button>
             </div>
         </div>
