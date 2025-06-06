@@ -3,18 +3,17 @@
  * @var PDO $pdo
  */
 
-// Register CSS based on authentication status
 if (isset($_SESSION['auth'])) {
     registerCss("assets/css/dashboard.css");
 } else {
     registerCss("assets/css/landing.css");
 }
 require "model/landing.php";
+require "model/photo.php";
 
 if (isset($_SESSION['auth']) && isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
-    // Add error reporting
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     try {

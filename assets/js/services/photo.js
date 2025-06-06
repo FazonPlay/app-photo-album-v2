@@ -1,5 +1,8 @@
-export const getPhotos = async (page = 1) => {
-    const response = await fetch(`index.php?component=photo&page=${page}`, {
+export const getPhotos = async (page = 1, userId = null) => {
+    let url = `index.php?component=photo&page=${page}`;
+    if (userId) url += `&user_id=${userId}`;
+
+    const response = await fetch(url, {
         method: 'GET',
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
     });

@@ -101,9 +101,8 @@
                         <?php foreach ($favoritePhotos as $photo): ?>
                             <div class="photo-card">
                                 <div class="photo-thumbnail">
-                                    <img src="<?php echo htmlspecialchars($photo->thumbnail_path, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($photo->title ?? 'Photo', ENT_QUOTES, 'UTF-8'); ?>">
-                                </div>
-                                <div class="photo-actions">
+                                    <img src="<?php echo htmlspecialchars($photo->file_path, ENT_QUOTES, 'UTF-8'); ?>"
+                                         alt="<?php echo htmlspecialchars($photo->title ?? 'Photo', ENT_QUOTES, 'UTF-8'); ?>">                                    <div class="photo-actions">
                                     <button class="favorite-btn active"><i class="fas fa-heart"></i></button>
                                 </div>
                             </div>
