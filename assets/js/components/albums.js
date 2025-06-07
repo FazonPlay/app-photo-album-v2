@@ -1,3 +1,6 @@
+import { toggleFavorite } from "../services/photo.js";
+import { showToast } from "./shared/toast.js";
+
 export const refreshAlbumList = async (page = 1) => {
     const albumList = document.getElementById('album-list');
     const pagination = document.getElementById('album-pagination');
@@ -20,6 +23,9 @@ export const refreshAlbumList = async (page = 1) => {
         <div class="album-card">
             <div class="album-thumbnail">
                 <img src="${album.cover_path || 'assets/img/default_album.jpg'}" alt="${album.title}">
+                ${album.cover_photo_id ? `<div class="album-fav-icon" data-id="${album.cover_photo_id}" data-fav="${album.is_favorite ? 1 : 0}" style="position:absolute;top:8px;right:8px;cursor:pointer;font-size:1.5em;">
+                    ${album.is_favorite ? '❤️' : '🤍'}
+                </div>` : ''}
             </div>
             <div class="album-info">
                 <h3>${album.title}</h3>
@@ -29,6 +35,7 @@ export const refreshAlbumList = async (page = 1) => {
     `).join('');
 
     setupDeleteAlbumButtons();
+    setupFavoriteAlbumCoverButtons();
 
     // Pagination
     const total = data.count || 0;
@@ -67,6 +74,24 @@ const setupDeleteAlbumButtons = () => {
                 await refreshAlbumList(1);
             } else {
                 alert('Failed to delete album.');
+            }
+        });
+    });
+};
+
+const setupFavoriteAlbumCoverButtons = () => {
+    document.querySelectorAll('.album-fav-icon').forEach(icon => {
+        icon.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const id = icon.dataset.id;
+            const wasFav = icon.dataset.fav === "1";
+            const result = await toggleFavorite(id);
+            if (result.success) {
+                icon.innerHTML = result.is_favorite ? '❤️' : '🤍';
+                icon.dataset.fav = result.is_favorite ? "1" : "0";
+                if (!result.is_favorite) {
+                    showToast('Photo removed from favorites', 'bg-danger');
+                }
             }
         });
     });

@@ -37,12 +37,22 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
             header('Content-Type: application/json');
             echo json_encode(['errors' => $errors]);
             exit();
+        } elseif (isset($_POST['action']) && $_POST['action'] === 'toggle_favorite') {
+            $photoId = intval($_POST['id']);
+            $userId = $_SESSION['user_id'] ?? 0;
+            $result = toggleFavorite($pdo, $photoId, $userId);
+            header('Content-Type: application/json');
+            echo json_encode($result);
+            exit();
         }
     } else {
         $page = intval($_GET['page'] ?? 1);
         $userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
+        $favorites = isset($_GET['favorites']) && $_GET['favorites'] == 1;
 
-        if ($userId) {
+        if ($favorites && isset($_SESSION['user_id'])) {
+            $result = getFavoritePhotos($pdo, $_SESSION['user_id'], $page, 20);
+        } elseif ($userId) {
             $result = getPhotosByUser($pdo, $userId, $page, 20);
         } else {
             $result = getPhotos($pdo, $page, 20);

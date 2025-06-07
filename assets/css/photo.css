@@ -1,0 +1,12 @@
+.photo-card {
+    position: relative;
+}
+.photo-fav-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 2;
+    user-select: none;
+}

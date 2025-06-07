@@ -1,4 +1,4 @@
-import { getPhotos, addPhoto, removePhoto } from "../services/photo.js";
+import { getPhotos, addPhoto, removePhoto, toggleFavorite } from "../services/photo.js";
 import { showToast } from "./shared/toast.js";
 
 export const refreshPhotoList = async (page = 1) => {
@@ -26,15 +26,19 @@ export const refreshPhotoList = async (page = 1) => {
     const photos = data.results || [];
     photoList.innerHTML = photos.map(photo => `
     <div class="photo-card">
+        <div class="photo-fav-icon" data-id="${photo.photo_id}" data-fav="${photo.is_favorite ? 1 : 0}" title="${photo.is_favorite ? 'Unfavorite' : 'Favorite'}" style="position:absolute;top:8px;right:8px;cursor:pointer;font-size:1.5em;">
+            ${photo.is_favorite ? '❤️' : '🤍'}
+        </div>
         <img src="${photo.thumbnail_path || photo.file_path}" alt="${photo.title}">
         <div class="card-body">
             <div class="card-title">${photo.title}</div>
             <button class="delete-photo-btn" data-id="${photo.photo_id}">Delete</button>
         </div>
     </div>
-`).join('');
+    `).join('');
 
     setupDeletePhotoButtons();
+    setupFavoritePhotoButtons();
 
     // Pagination
     const total = data.count || 0;
@@ -68,6 +72,25 @@ const setupDeletePhotoButtons = () => {
                 await refreshPhotoList(1);
             } else {
                 showToast('Failed to delete photo.', 'bg-danger');
+            }
+        });
+    });
+};
+
+const setupFavoritePhotoButtons = () => {
+    document.querySelectorAll('.photo-fav-icon').forEach(icon => {
+        icon.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const id = icon.dataset.id;
+            const wasFav = icon.dataset.fav === "1";
+            const result = await toggleFavorite(id);
+            if (result.success) {
+                icon.innerHTML = result.is_favorite ? '❤️' : '🤍';
+                icon.dataset.fav = result.is_favorite ? "1" : "0";
+                icon.title = result.is_favorite ? 'Unfavorite' : 'Favorite';
+                if (!result.is_favorite) {
+                    showToast('Photo removed from favorites', 'bg-danger');
+                }
             }
         });
     });

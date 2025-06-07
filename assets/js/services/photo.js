@@ -28,3 +28,13 @@ export const removePhoto = async (id) => {
     });
     return await response.json();
 };
+
+export const toggleFavorite = async (id) => {
+    const data = new URLSearchParams({ action: 'toggle_favorite', id });
+    const response = await fetch('index.php?component=photo', {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: data
+    });
+    return await response.json();
+};

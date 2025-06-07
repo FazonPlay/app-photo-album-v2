@@ -92,3 +92,28 @@ function getAllUsers(PDO $pdo): array {
     $stmt = $pdo->query("SELECT user_id, username FROM users ORDER BY username ASC");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
+
+function toggleFavorite(PDO $pdo, int $photoId, int $userId): array
+{
+    // Only allow toggling if the user owns the photo or has access (optional: adjust as needed)
+    $photo = getPhoto($pdo, $photoId);
+    if (!$photo) {
+        return ['success' => false, 'error' => 'Photo not found'];
+    }
+    // Optionally: check $photo['user_id'] == $userId
+
+    $newStatus = $photo['is_favorite'] ? 0 : 1;
+    $query = "UPDATE photos SET is_favorite = :fav WHERE photo_id = :id";
+    $prep = $pdo->prepare($query);
+    $prep->bindValue(':fav', $newStatus, PDO::PARAM_INT);
+    $prep->bindValue(':id', $photoId, PDO::PARAM_INT);
+    try {
+        $prep->execute();
+        $prep->closeCursor();
+        return ['success' => true, 'is_favorite' => $newStatus];
+    } catch (PDOException $e) {
+        return ['success' => false, 'error' => $e->getMessage()];
+    }
+}
