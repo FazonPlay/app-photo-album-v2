@@ -94,6 +94,21 @@ function getAllUsers(PDO $pdo): array {
 }
 
 
+function getPhoto(PDO $pdo, int $photoId): array|string
+{
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $query = "SELECT * FROM photos WHERE photo_id = :id";
+    $prep = $pdo->prepare($query);
+    $prep->bindValue(':id', $photoId, PDO::PARAM_INT);
+    try {
+        $prep->execute();
+        $res = $prep->fetch(PDO::FETCH_ASSOC);
+        $prep->closeCursor();
+        return $res;
+    } catch (PDOException $e) {
+        return "Error: " . $e->getMessage();
+    }
+}
 
 function toggleFavorite(PDO $pdo, int $photoId, int $userId): array
 {
