@@ -1,42 +1,27 @@
-<div class="dashboard-container">
-<?php require "_partials/sidebar.php"; ?>
-    <div class="photo-page">
-        <div class="photo-header">
-         <h1>Photo Gallery</h1>
-            <form id="add-photo-form" enctype="multipart/form-data" method="post" action="">
-                <div class="form-row">
-                    <input type="text" id="photo-title" name="title" placeholder="Photo Title" required>
-                    <input type="file" id="photo-file" name="photo" accept="image/*" required>
-                    <button type="submit" class="btn-primary">Add Photo</button>
-                </div>
-            </form>
-            <div id="photo-errors" class="alert d-none"></div>
-            <select id="user-select" class="user-select">
-                <option value="">All Users</option>
-                <?php foreach ($users as $user): ?>
-                    <option value="<?php echo $user['user_id']; ?>"><?php echo htmlspecialchars($user['username']); ?></option>
-                <?php endforeach; ?>
-            </select>
+<?php
+/**
+ * @var array $photoData
+ * @var string $action
+ */
+require("_partials/errors.php");
+?>
+<div class="photo-form-container">
+    <form action="" id="photo-form" method="post" autocomplete="off">
+        <input type="hidden" name="photo_id" value="<?php echo htmlspecialchars($photoData['photo_id'] ?? '', ENT_QUOTES); ?>">
+        <div class="form-group">
+            <label for="title">Photo Title *</label>
+            <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($photoData['title'] ?? '', ENT_QUOTES); ?>" required>
         </div>
-        <div class="photo-gallery" id="photo-list"></div>
-        <nav>
-            <ul class="pagination" id="photo-pagination"></ul>
-        </nav>
-    </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description"><?php echo htmlspecialchars($photoData['description'] ?? '', ENT_QUOTES); ?></textarea>
+        </div>
+        <div class="form-group checkbox-group">
+            <input type="checkbox" id="is_favorite" name="is_favorite" <?php if(($photoData['is_favorite'] ?? 0)) echo 'checked'; ?>>
+            <label for="is_favorite">Favorite</label>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn-primary">Update Photo</button>
+        </div>
+    </form>
 </div>
-<link rel="stylesheet" href="assets/css/photos_custom.css">
-<script src="./assets/js/services/photo.js" type="module"></script>
-<script src="./assets/js/components/photos.js" type="module"></script>
-<script type="module">
-    import { refreshPhotoList, handleAddPhoto } from './assets/js/components/photos.js';
-    document.addEventListener('DOMContentLoaded', () => {
-        refreshPhotoList(1);
-        const userSelect = document.getElementById('user-select');
-        if (userSelect) {
-            userSelect.addEventListener('change', () => {
-                refreshPhotoList(1);
-            });
-        }
-        handleAddPhoto();
-    });
-</script>

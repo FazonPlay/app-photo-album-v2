@@ -20,19 +20,24 @@ export const refreshAlbumList = async (page = 1) => {
 
     const albums = data.results || [];
     albumList.innerHTML = albums.map(album => `
-        <div class="album-card">
-            <div class="album-thumbnail">
-                <img src="${album.cover_path || 'assets/img/default_album.jpg'}" alt="${album.title}">
-                ${album.cover_photo_id ? `<div class="album-fav-icon" data-id="${album.cover_photo_id}" data-fav="${album.is_favorite ? 1 : 0}" style="position:absolute;top:8px;right:8px;cursor:pointer;font-size:1.5em;">
-                    ${album.is_favorite ? '❤️' : '🤍'}
-                </div>` : ''}
-            </div>
-            <div class="album-info">
-                <h3>${album.title}</h3>
-                <button class="delete-album-btn" data-id="${album.album_id}">Delete</button>
+    <div class="album-card">
+        <div class="album-thumbnail">
+            <img src="${album.cover_path || 'assets/img/default_album.jpg'}" alt="${album.title}">
+            ${album.cover_photo_id ? `<div class="album-fav-icon" data-id="${album.cover_photo_id}" data-fav="${album.is_favorite ? 1 : 0}">
+                ${album.is_favorite ? '❤️' : '🤍'}
+            </div>` : ''}
+        </div>
+        <div class="album-info">
+            <h3>${album.title}</h3>
+            <div class="album-actions">
+                <a href="index.php?component=album&id=${album.album_id}" class="album-btn">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <button class="delete-album-btn album-btn" data-id="${album.album_id}">Delete</button>
             </div>
         </div>
-    `).join('');
+    </div>
+`).join('');
 
     setupDeleteAlbumButtons();
     setupFavoriteAlbumCoverButtons();
@@ -96,3 +101,4 @@ const setupFavoriteAlbumCoverButtons = () => {
         });
     });
 };
+

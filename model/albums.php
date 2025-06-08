@@ -4,11 +4,11 @@ function getAlbums(PDO $pdo, int $page = 1, int $itemsPerPage = 20): array|strin
     $offset = ($page - 1) * $itemsPerPage;
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $query = "SELECT a.*, COALESCE(p.thumbnail_path, p.file_path) AS cover_path
-          FROM albums a
-          LEFT JOIN photos p ON a.cover_photo_id = p.photo_id
-          ORDER BY a.creation_date DESC
-          LIMIT :limit OFFSET :offset";
+    $query = "SELECT a.*, p.thumbnail_path AS cover_path
+              FROM albums a
+              LEFT JOIN photos p ON a.cover_photo_id = p.photo_id
+              ORDER BY a.creation_date DESC
+              LIMIT :limit OFFSET :offset";
     $prep = $pdo->prepare($query);
     $prep->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
     $prep->bindValue(':offset', $offset, PDO::PARAM_INT);

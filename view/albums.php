@@ -1,8 +1,11 @@
 <div class="dashboard-container">
     <?php require "_partials/sidebar.php"; ?>
     <main class="main-content">
-        <div class="dashboard-header">
+        <div class="dashboard-header" style="display: flex; align-items: center; justify-content: space-between;">
             <h1>Albums</h1>
+            <a href="index.php?component=album" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create Album
+            </a>
         </div>
         <div class="album-grid" id="album-list"></div>
         <nav>

@@ -1,5 +1,5 @@
 export const getPhotos = async (page = 1, userId = null) => {
-    let url = `index.php?component=photo&page=${page}`;
+    let url = `index.php?component=photos&page=${page}`;
     if (userId) url += `&user_id=${userId}`;
 
     const response = await fetch(url, {
@@ -11,7 +11,7 @@ export const getPhotos = async (page = 1, userId = null) => {
 
 export const addPhoto = async (formData) => {
     formData.append('action', 'add');
-    const response = await fetch('index.php?component=photo', {
+    const response = await fetch('index.php?component=photos', {
         method: 'POST',
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
         body: formData
@@ -21,7 +21,7 @@ export const addPhoto = async (formData) => {
 
 export const removePhoto = async (id) => {
     const data = new URLSearchParams({ action: 'delete', id });
-    const response = await fetch('index.php?component=photo', {
+    const response = await fetch('index.php?component=photos', {
         method: 'POST',
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
         body: data
@@ -31,7 +31,7 @@ export const removePhoto = async (id) => {
 
 export const toggleFavorite = async (id) => {
     const data = new URLSearchParams({ action: 'toggle_favorite', id });
-    const response = await fetch('index.php?component=photo', {
+    const response = await fetch('index.php?component=photos', {
         method: 'POST',
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
         body: data

@@ -3,28 +3,45 @@
  * @var PDO $pdo
  */
 registerCss("assets/css/album.css");
-require "model/album.php";
-require "model/photo.php";
-$allPhotos = getPhotos($pdo, 1, 1000)['photos'];
+require_once "model/album.php";
+require_once "model/photos.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'])) {
-    require "model/albums.php";
-    $title = $_POST['title'];
-    $description = $_POST['description'] ?? '';
-    $coverPhotoId = null;
-    $photoIds = $_POST['photos'] ?? [];
+$errors = [];
+$action = 'edit';
+$albumId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$albumData = getAlbum($pdo, $albumId);
+$allPhotos = getPhotosByAlbum($pdo, $albumId);
+$allAvailablePhotos = getAllPhotos($pdo);
 
-    // Automatically use the first selected photo as the cover photo
-    $coverPhotoId = !empty($photoIds) ? (int)$photoIds[0] : null;
+//if (!$albumData) {
+//    $errors[] = "Album not found.";
+//
+// need to handle the case where the album is being created
+// otherwise triggers the error 
 
-    $albumId = addAlbum($pdo, $title, $description, $coverPhotoId);
-    if ($albumId && !empty($photoIds)) {
-        foreach ($photoIds as $pid) {
-            addPhotoToAlbum($pdo, $albumId, (int)$pid);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = trim($_POST['title'] ?? '');
+    $description = trim($_POST['description'] ?? '');
+    $visibility = $_POST['visibility'] ?? 'private';
+    $selectedPhotos = $_POST['photos'] ?? [];
+
+    if ($title === '') $errors[] = "Title is required.";
+    if ($description === '') $errors[] = "Description is required.";
+
+    if (empty($errors)) {
+        $result = updateAlbum($pdo, $albumId, $title, $description, $visibility, $selectedPhotos);
+        if ($result === true) {
+            header("Location: index.php?component=albums");
+            exit;
+        } else {
+            $errors[] = $result;
         }
     }
-    header("Location: index.php?component=albums");
-    exit();
+    // Repopulate form fields
+    $albumData['title'] = $title;
+    $albumData['description'] = $description;
+    $albumData['visibility'] = $visibility;
+    $allPhotos = getPhotosByAlbum($pdo, $albumId);
 }
 
 require "view/album.php";

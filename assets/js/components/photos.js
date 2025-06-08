@@ -8,7 +8,7 @@ export const refreshPhotoList = async (page = 1) => {
     const userId = userSelect ? userSelect.value : '';
     let urlPage = page || 1;
 
-    let url = `index.php?component=photo&page=${urlPage}`;
+    let url = `index.php?component=photos&page=${urlPage}`;
     if (userId) url += `&user_id=${userId}`;
 
     const response = await fetch(url, {

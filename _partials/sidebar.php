@@ -27,8 +27,8 @@ $currentComponent = $_GET['component'] ?? 'landing';
                 <li class="<?php echo $currentComponent === 'users' ? 'active' : ''; ?>">
                     <a href="?component=users"><i class="fas fa-users"></i> Manage Users</a>
                 </li>
-                <li class="<?php echo $currentComponent === 'photo' ? 'active' : ''; ?>">
-                    <a href="?component=photo"><i class="fas fa-camera"></i> All Photos</a>
+                <li class="<?php echo $currentComponent === 'photos' ? 'active' : ''; ?>">
+                    <a href="?component=photos"><i class="fas fa-camera"></i> All Photos</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'landing' ? 'active' : ''; ?>">
                     <a href="?component=landing"><i class="fas fa-cog"></i> User Dashboard</a>
@@ -49,8 +49,8 @@ $currentComponent = $_GET['component'] ?? 'landing';
                 <li class="<?php echo $currentComponent === 'albums' ? 'active' : ''; ?>">
                     <a href="?component=albums"><i class="fas fa-images"></i> My Albums</a>
                 </li>
-                <li class="<?php echo $currentComponent === 'photo' ? 'active' : ''; ?>">
-                    <a href="?component=photo"><i class="fas fa-camera"></i> All Photos</a>
+                <li class="<?php echo $currentComponent === 'photos' ? 'active' : ''; ?>">
+                    <a href="?component=photos"><i class="fas fa-camera"></i> All Photos</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'favorites' ? 'active' : ''; ?>">
                     <a href="?component=favorites"><i class="fas fa-heart"></i> Favorites</a>
