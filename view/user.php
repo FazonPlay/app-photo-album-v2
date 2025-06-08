@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var string $action
+ */
 require("_partials/errors.php");
 //require '_partials/sidebar.php';
 ?>

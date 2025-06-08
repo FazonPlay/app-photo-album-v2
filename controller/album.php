@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var PDO $pdo
+ */
 registerCss("assets/css/album.css");
 require "model/album.php";
 require "model/photo.php";
@@ -8,8 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'])) {
     require "model/albums.php";
     $title = $_POST['title'];
     $description = $_POST['description'] ?? '';
-    $coverPhotoId = null; // handle file upload if needed
+    $coverPhotoId = null;
     $photoIds = $_POST['photos'] ?? [];
+
+    // Automatically use the first selected photo as the cover photo
+    $coverPhotoId = !empty($photoIds) ? (int)$photoIds[0] : null;
 
     $albumId = addAlbum($pdo, $title, $description, $coverPhotoId);
     if ($albumId && !empty($photoIds)) {

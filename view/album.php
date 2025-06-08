@@ -9,10 +9,6 @@
             <textarea id="album-description" name="description"></textarea>
         </div>
         <div class="form-group">
-            <label for="album-cover">Cover Photo</label>
-            <input type="file" id="album-cover" name="cover_photo" accept="image/*">
-        </div>
-        <div class="form-group">
             <label>Select Photos</label>
             <div id="photo-checkbox-list">
                 <?php foreach ($allPhotos as $photo): ?>

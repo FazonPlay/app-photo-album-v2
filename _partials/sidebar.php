@@ -30,12 +30,6 @@ $currentComponent = $_GET['component'] ?? 'landing';
                 <li class="<?php echo $currentComponent === 'photo' ? 'active' : ''; ?>">
                     <a href="?component=photo"><i class="fas fa-camera"></i> All Photos</a>
                 </li>
-                <li class="<?php echo $currentComponent === 'reports' ? 'active' : ''; ?>">
-                    <a href="?component=reports"><i class="fas fa-flag"></i> Reports</a>
-                </li>
-                <li class="<?php echo $currentComponent === 'settings' ? 'active' : ''; ?>">
-                    <a href="?component=settings"><i class="fas fa-cog"></i> Settings</a>
-                </li>
                 <li class="<?php echo $currentComponent === 'landing' ? 'active' : ''; ?>">
                     <a href="?component=landing"><i class="fas fa-cog"></i> User Dashboard</a>
                 </li>
