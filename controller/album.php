@@ -7,17 +7,11 @@ require_once "model/album.php";
 require_once "model/photos.php";
 
 $errors = [];
-$action = 'edit';
 $albumId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$albumData = getAlbum($pdo, $albumId);
-$allPhotos = getPhotosByAlbum($pdo, $albumId);
+$action = $albumId > 0 ? 'edit' : 'create';
+$albumData = $albumId > 0 ? getAlbum($pdo, $albumId) : [];
+$allPhotos = $albumId > 0 ? getPhotosByAlbum($pdo, $albumId) : [];
 $allAvailablePhotos = getAllPhotos($pdo);
-
-//if (!$albumData) {
-//    $errors[] = "Album not found.";
-//
-// need to handle the case where the album is being created
-// otherwise triggers the error 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
@@ -25,23 +19,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $visibility = $_POST['visibility'] ?? 'private';
     $selectedPhotos = $_POST['photos'] ?? [];
 
-    if ($title === '') $errors[] = "Title is required.";
-    if ($description === '') $errors[] = "Description is required.";
+    // Validate form data
+    if (empty($title)) $errors[] = "Title is required.";
+    if (empty($description)) $errors[] = "Description is required.";
 
     if (empty($errors)) {
-        $result = updateAlbum($pdo, $albumId, $title, $description, $visibility, $selectedPhotos);
-        if ($result === true) {
-            header("Location: index.php?component=albums");
-            exit;
+        if ($albumId > 0) {
+            // Update existing album
+            $result = updateAlbum($pdo, $albumId, $title, $description, $visibility, $selectedPhotos);
+            if ($result === true) {
+                header("Location: index.php?component=albums");
+                exit;
+            } else {
+                $errors[] = $result;
+            }
         } else {
-            $errors[] = $result;
+            // Create new album
+            $coverPhotoId = !empty($selectedPhotos) ? $selectedPhotos[0] : null;
+            $newAlbumId = addAlbum($pdo, $title, $description, $coverPhotoId);
+
+            // Update the album with visibility and associate photos
+            if ($newAlbumId) {
+                $pdo->prepare("UPDATE albums SET visibility = ? WHERE album_id = ?")->execute([$visibility, $newAlbumId]);
+
+                // Associate selected photos with the new album
+                if (!empty($selectedPhotos)) {
+                    foreach ($selectedPhotos as $photoId) {
+                        addPhotoToAlbum($pdo, $newAlbumId, $photoId);
+                    }
+                }
+
+                header("Location: index.php?component=albums");
+                exit;
+            } else {
+                $errors[] = "Failed to create album";
+            }
         }
     }
-    // Repopulate form fields
+
+    // Repopulate form fields on error
     $albumData['title'] = $title;
     $albumData['description'] = $description;
     $albumData['visibility'] = $visibility;
-    $allPhotos = getPhotosByAlbum($pdo, $albumId);
 }
 
 require "view/album.php";

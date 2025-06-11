@@ -39,26 +39,45 @@ function getAlbum(PDO $pdo, int $albumId): array|string
 function updateAlbum(PDO $pdo, int $albumId, string $title, string $description, string $visibility, array $photoIds): bool|string
 {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $query = "UPDATE albums SET title = :title, description = :description, visibility = :visibility WHERE album_id = :id";
-    $prep = $pdo->prepare($query);
-    $prep->bindValue(':title', $title);
-    $prep->bindValue(':description', $description);
-    $prep->bindValue(':visibility', $visibility);
-    $prep->bindValue(':id', $albumId, PDO::PARAM_INT);
+
     try {
+        // Begin transaction for consistency
+        $pdo->beginTransaction();
+
+        // Update album details
+        $query = "UPDATE albums SET title = :title, description = :description, visibility = :visibility WHERE album_id = :id";
+        $prep = $pdo->prepare($query);
+        $prep->bindValue(':title', $title);
+        $prep->bindValue(':description', $description);
+        $prep->bindValue(':visibility', $visibility);
+        $prep->bindValue(':id', $albumId, PDO::PARAM_INT);
         $prep->execute();
+
         // Remove all current photos from album
-        $pdo->prepare("UPDATE photos SET album_id = NULL WHERE album_id = :album_id")->execute([':album_id' => $albumId]);
-        // Add selected photos to album
+        $pdo->prepare("UPDATE photos SET album_id = NULL WHERE album_id = :album_id")
+            ->execute([':album_id' => $albumId]);
+
+        // Add selected photos to album - FIXED
         if (!empty($photoIds)) {
-            $in = implode(',', array_fill(0, count($photoIds), '?'));
-            $stmt = $pdo->prepare("UPDATE photos SET album_id = ? WHERE photo_id IN ($in)");
+            $stmt = $pdo->prepare("UPDATE photos SET album_id = :album_id WHERE photo_id = :photo_id");
             foreach ($photoIds as $photoId) {
-                $stmt->execute([$albumId, $photoId]);
+                $stmt->bindValue(':album_id', $albumId, PDO::PARAM_INT);
+                $stmt->bindValue(':photo_id', $photoId, PDO::PARAM_INT);
+                $stmt->execute();
             }
         }
+
+        // Update cover photo if needed
+        if (!empty($photoIds)) {
+            $coverPhotoId = $photoIds[0]; // Use first photo as cover if not specified
+            $pdo->prepare("UPDATE albums SET cover_photo_id = :cover_id WHERE album_id = :album_id")
+                ->execute([':cover_id' => $coverPhotoId, ':album_id' => $albumId]);
+        }
+
+        $pdo->commit();
         return true;
     } catch (PDOException $e) {
+        $pdo->rollBack();
         return "Error: " . $e->getMessage();
     }
 }

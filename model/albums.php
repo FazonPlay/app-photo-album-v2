@@ -4,7 +4,14 @@ function getAlbums(PDO $pdo, int $page = 1, int $itemsPerPage = 20): array|strin
     $offset = ($page - 1) * $itemsPerPage;
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $query = "SELECT a.*, p.thumbnail_path AS cover_path
+    $query = "SELECT a.*, 
+              p.thumbnail_path,
+              p.file_path,
+              CASE WHEN p.thumbnail_path IS NOT NULL AND p.thumbnail_path != '' 
+                   THEN p.thumbnail_path 
+                   ELSE p.file_path 
+              END AS cover_path,
+              p.is_favorite
               FROM albums a
               LEFT JOIN photos p ON a.cover_photo_id = p.photo_id
               ORDER BY a.creation_date DESC
