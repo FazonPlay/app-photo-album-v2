@@ -45,6 +45,25 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
             echo json_encode($result);
             exit();
         }
+        elseif (isset($_POST['action']) && $_POST['action'] === 'update') {
+            $photoId = intval($_POST['id']);
+            $title = $_POST['title'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $userId = $_SESSION['user_id'] ?? 0;
+
+            // Get current photo to preserve favorite status
+            $photo = getPhoto($pdo, $photoId);
+            if ($photo) {
+                $isFavorite = $photo['is_favorite'] ?? 0;
+                $result = updatePhoto($pdo, $photoId, $title, $description, $isFavorite);
+                header('Content-Type: application/json');
+                echo json_encode(['success' => $result === true]);
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'error' => 'Photo not found']);
+            }
+            exit();
+        }
     } else {
         $page = intval($_GET['page'] ?? 1);
         $userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;

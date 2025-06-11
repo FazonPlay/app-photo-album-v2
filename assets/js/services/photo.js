@@ -1,3 +1,5 @@
+import {showToast} from "../components/shared/toast";
+
 export const getPhotos = async (page = 1, userId = null) => {
     let url = `index.php?component=photos&page=${page}`;
     if (userId) url += `&user_id=${userId}`;
@@ -37,4 +39,27 @@ export const toggleFavorite = async (id) => {
         body: data
     });
     return await response.json();
+};
+
+export const updatePhoto = async (id, title, description) => {
+    const data = new URLSearchParams({
+        action: 'update',
+        id,
+        title,
+        description
+    });
+
+    const response = await fetch('index.php?component=photos', {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: data
+    });
+
+    const result = await response.json();
+    if (result.success) {
+        showToast('Photo updated successfully', 'bg-success');
+    } else {
+        showToast('Failed to update photo', 'bg-danger');
+    }
+    return result;
 };

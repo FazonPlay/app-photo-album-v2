@@ -20,27 +20,23 @@ export const refreshAlbumList = async (page = 1) => {
 
     const albums = data.results || [];
     albumList.innerHTML = albums.map(album => `
-    <div class="album-card">
-        <div class="album-thumbnail">
-            <img src="${album.cover_path || 'assets/img/default_album.jpg'}" alt="${album.title}">
-            ${album.cover_photo_id ? `<div class="album-fav-icon" data-id="${album.cover_photo_id}" data-fav="${album.is_favorite ? 1 : 0}">
-                ${album.is_favorite ? '❤️' : '🤍'}
-            </div>` : ''}
-        </div>
-        <div class="album-info">
-            <h3>${album.title}</h3>
-            <div class="album-actions">
-                <a href="index.php?component=album&id=${album.album_id}" class="album-btn">
-                    <i class="fas fa-edit"></i> Edit
-                </a>
-                <button class="delete-album-btn album-btn" data-id="${album.album_id}">Delete</button>
-            </div>
+<div class="album-card">
+    <div class="album-thumbnail">
+        <img src="${album.cover_path || 'assets/img/default_album.jpg'}" alt="${album.title}">
+    </div>
+    <div class="album-info">
+        <h3>${album.title}</h3>
+        <div class="album-actions">
+            <a href="index.php?component=album&id=${album.album_id}" class="album-btn">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <button class="delete-album-btn album-btn" data-id="${album.album_id}">Delete</button>
         </div>
     </div>
+</div>
 `).join('');
 
     setupDeleteAlbumButtons();
-    setupFavoriteAlbumCoverButtons();
 
     // Pagination
     const total = data.count || 0;
@@ -79,24 +75,6 @@ const setupDeleteAlbumButtons = () => {
                 await refreshAlbumList(1);
             } else {
                 alert('Failed to delete album.');
-            }
-        });
-    });
-};
-
-const setupFavoriteAlbumCoverButtons = () => {
-    document.querySelectorAll('.album-fav-icon').forEach(icon => {
-        icon.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const id = icon.dataset.id;
-            const wasFav = icon.dataset.fav === "1";
-            const result = await toggleFavorite(id);
-            if (result.success) {
-                icon.innerHTML = result.is_favorite ? '❤️' : '🤍';
-                icon.dataset.fav = result.is_favorite ? "1" : "0";
-                if (!result.is_favorite) {
-                    showToast('Photo removed from favorites', 'bg-danger');
-                }
             }
         });
     });

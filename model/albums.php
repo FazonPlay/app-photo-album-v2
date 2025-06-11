@@ -49,3 +49,31 @@ function deleteAlbum(PDO $pdo, int $albumId): bool|string {
     }
 }
 
+function toggleAlbumFavorite(PDO $pdo, int $albumId, int $userId): array
+{
+    $query = "SELECT is_favorite FROM albums WHERE album_id = :album_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':album_id', $albumId, PDO::PARAM_INT);
+
+    try {
+        $stmt->execute();
+        $album = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$album) {
+            return ['success' => false, 'error' => 'Album not found'];
+        }
+
+        $newStatus = $album['is_favorite'] ? 0 : 1;
+
+        $updateQuery = "UPDATE albums SET is_favorite = :fav WHERE album_id = :album_id";
+        $updateStmt = $pdo->prepare($updateQuery);
+        $updateStmt->bindValue(':fav', $newStatus, PDO::PARAM_INT);
+        $updateStmt->bindValue(':album_id', $albumId, PDO::PARAM_INT);
+        $updateStmt->execute();
+
+        return ['success' => true, 'is_favorite' => (bool)$newStatus];
+    } catch (PDOException $e) {
+        return ['success' => false, 'error' => $e->getMessage()];
+    }
+}
+

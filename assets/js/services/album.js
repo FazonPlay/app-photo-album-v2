@@ -35,3 +35,33 @@ export async function createAlbum(title, description, visibility) {
         return { error: 'Failed to create album' };
     }
 }
+
+export async function toggleAlbumFavorite(id) {
+    try {
+        const data = new URLSearchParams({ action: 'toggle_favorite', id });
+        const response = await fetch('index.php?component=albums', {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            body: data
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Error toggling album favorite:', error);
+        return { success: false, error: 'Failed to toggle favorite' };
+    }
+}
+
+export async function deleteAlbum(id) {
+    try {
+        const data = new URLSearchParams({ action: 'delete', id });
+        const response = await fetch('index.php?component=albums', {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            body: data
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Error deleting album:', error);
+        return { success: false };
+    }
+}
