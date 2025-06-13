@@ -151,3 +151,62 @@ function updatePhoto(PDO $pdo, int $photoId, string $title, string $description,
         return "Error: " . $e->getMessage();
     }
 }
+
+
+function getPhotosByTag(PDO $pdo, int $userId, string $tag, int $page = 1, int $itemsPerPage = 20): array|string
+{
+    $offset = ($page - 1) * $itemsPerPage;
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $query = "
+        SELECT ph.*
+        FROM photos ph
+        JOIN photo_tags pt ON pt.photo_id = ph.photo_id
+        JOIN tags t ON t.tag_id = pt.tag_id
+        JOIN albums a ON ph.album_id = a.album_id
+        WHERE t.name = :tag
+        AND (
+            ph.user_id = :user_id
+            OR a.visibility = 'public'
+            OR EXISTS (SELECT 1 FROM album_access aa WHERE aa.album_id = a.album_id AND aa.user_id = :user_id)
+        )
+        ORDER BY ph.upload_date DESC
+        LIMIT :limit OFFSET :offset
+    ";
+    $prep = $pdo->prepare($query);
+    $prep->bindValue(':tag', $tag);
+    $prep->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $prep->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+    $prep->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+    try {
+        $prep->execute();
+        $photos = $prep->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        return "Error: " . $e->getMessage();
+    }
+
+    // Count
+    $countQuery = "
+        SELECT COUNT(*) AS total
+        FROM photos ph
+        JOIN photo_tags pt ON pt.photo_id = ph.photo_id
+        JOIN tags t ON t.tag_id = pt.tag_id
+        JOIN albums a ON ph.album_id = a.album_id
+        WHERE t.name = :tag
+        AND (
+            ph.user_id = :user_id
+            OR a.visibility = 'public'
+            OR EXISTS (SELECT 1 FROM album_access aa WHERE aa.album_id = a.album_id AND aa.user_id = :user_id)
+        )
+    ";
+    $countPrep = $pdo->prepare($countQuery);
+    $countPrep->bindValue(':tag', $tag);
+    $countPrep->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $countPrep->execute();
+    $count = $countPrep->fetch(PDO::FETCH_ASSOC);
+
+    return ['photos' => $photos, 'total' => $count['total']];
+}
+
+// ...existing code...

@@ -7,6 +7,12 @@
                 <i class="fas fa-plus"></i> Create Album
             </a>
         </div>
+        <form id="album-search-form" class="mb-3">
+            <input type="text" name="tag" placeholder="Search by tag">
+            <input type="text" name="title" placeholder="Search by title">
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </form>
+        <!-- ...existing album grid... -->
         <div class="album-grid" id="album-list"></div>
         <nav>
             <ul class="pagination" id="album-pagination"></ul>

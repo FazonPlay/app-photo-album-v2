@@ -19,13 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $visibility = $_POST['visibility'] ?? 'private';
     $selectedPhotos = $_POST['photos'] ?? [];
 
-    // Validate form data
     if (empty($title)) $errors[] = "Title is required.";
     if (empty($description)) $errors[] = "Description is required.";
 
     if (empty($errors)) {
         if ($albumId > 0) {
-            // Update existing album
             $result = updateAlbum($pdo, $albumId, $title, $description, $visibility, $selectedPhotos);
             if ($result === true) {
                 header("Location: index.php?component=albums");
@@ -34,15 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errors[] = $result;
             }
         } else {
-            // Create new album
             $coverPhotoId = !empty($selectedPhotos) ? $selectedPhotos[0] : null;
             $newAlbumId = addAlbum($pdo, $title, $description, $coverPhotoId);
 
-            // Update the album with visibility and associate photos
             if ($newAlbumId) {
                 $pdo->prepare("UPDATE albums SET visibility = ? WHERE album_id = ?")->execute([$visibility, $newAlbumId]);
 
-                // Associate selected photos with the new album
                 if (!empty($selectedPhotos)) {
                     foreach ($selectedPhotos as $photoId) {
                         addPhotoToAlbum($pdo, $newAlbumId, $photoId);
@@ -57,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Repopulate form fields on error
     $albumData['title'] = $title;
     $albumData['description'] = $description;
     $albumData['visibility'] = $visibility;
