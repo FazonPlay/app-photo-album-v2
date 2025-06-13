@@ -9,7 +9,6 @@ if (isset($_SESSION['auth'])) {
     registerCss("assets/css/landing.css");
 }
 require "model/landing.php";
-require "model/photo.php";
 
 if (isset($_SESSION['auth']) && isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];

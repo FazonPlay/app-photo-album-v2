@@ -15,7 +15,7 @@ function getUserData($pdo, $userId) {
 }
 
 function getRecentAlbums($pdo, $userId, $limit = 4) {
-    $limit = (int)$limit; // Avoid binding LIMIT directly
+    $limit = (int)$limit;
     $query = "SELECT a.*,
               (SELECT COUNT(*) FROM photos WHERE album_id = a.album_id) AS photoCount,
               (SELECT file_path FROM photos WHERE photo_id = a.cover_photo_id LIMIT 1) AS coverPhotoUrl
