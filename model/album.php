@@ -1,8 +1,10 @@
 <?php
 
 function addAlbum(PDO $pdo, string $title, string $description, $coverPhotoId = null) {
-    $query = "INSERT INTO albums (title, description, cover_photo_id, creation_date) VALUES (:title, :description, :cover_photo_id, NOW())";
+    $userId = $_SESSION['user_id'] ?? 0;
+    $query = "INSERT INTO albums (user_id, title, description, cover_photo_id, creation_date) VALUES (:user_id, :title, :description, :cover_photo_id, NOW())";
     $prep = $pdo->prepare($query);
+    $prep->bindValue(':user_id', $userId, PDO::PARAM_INT);
     $prep->bindValue(':title', $title);
     $prep->bindValue(':description', $description);
     $prep->bindValue(':cover_photo_id', $coverPhotoId, PDO::PARAM_INT);

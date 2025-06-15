@@ -49,36 +49,25 @@ require("_partials/errors.php");
     <!-- Album sharing link -->
     <button onclick="navigator.clipboard.writeText(window.location.href);alert('Link copied!')">Share Album</button>
 
-    <!-- Invitation form (only for owner/admin) -->
-    <?php if (isAdmin() || isAlbumOwner($albumData, $_SESSION['user_id'])): ?>
-        <form id="invite-user-form">
-            <input type="email" name="email" placeholder="Invite by email" required>
-            <select name="permission">
-                <option value="view">View</option>
-                <option value="comment">Comment</option>
-                <option value="contribute">Contribute</option>
-            </select>
-            <input type="text" name="message" placeholder="Message (optional)">
-            <button type="submit">Send Invite</button>
-        </form>
-        <script>
-            document.getElementById('invite-user-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const form = e.target;
-                const data = new URLSearchParams(new FormData(form));
-                data.append('action', 'invite');
-                data.append('album_id', <?= $albumId ?>);
-                const response = await fetch('index.php?component=albums', {
-                    method: 'POST',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                    body: data
-                });
-                const result = await response.json();
-                if (result.success) alert('Invitation sent!');
-            });
-        </script>
-    <?php endif; ?>
-</div>
 
+        <!-- Invitation form (only for owner/admin) -->
+        <?php if (isAdmin() || isAlbumOwner($albumData, $_SESSION['user_id'])): ?>
+            <form id="invite-user-form">
+                <input type="email" name="email" placeholder="Invite by email" required>
+                <select name="permission">
+                    <option value="view">View</option>
+                    <option value="comment">Comment</option>
+                    <option value="contribute">Contribute</option>
+                </select>
+                <input type="text" name="message" placeholder="Message (optional)">
+                <button type="submit">Send Invite</button>
+            </form>
+
+        <?php endif; ?>
+</div>
+<script type="module">
+    import { setupAlbumInviteForm } from './assets/js/components/albums.js';
+    setupAlbumInviteForm(<?= json_encode($albumData['album_id'] ?? 0) ?>);
+</script>
 
                                                             <!--// make this shit into javascript, seperate it bro plzzzzz-->

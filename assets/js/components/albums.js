@@ -80,3 +80,22 @@ const setupDeleteAlbumButtons = () => {
     });
 };
 
+export function setupAlbumInviteForm(albumId) {
+    const form = document.getElementById('invite-user-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const data = new URLSearchParams(new FormData(form));
+        data.append('action', 'invite');
+        data.append('album_id', albumId);
+
+        const response = await fetch('index.php?component=albums', {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            body: data
+        });
+        const result = await response.json();
+        if (result.success) showToast('Invitation sent!');
+    });
+}
