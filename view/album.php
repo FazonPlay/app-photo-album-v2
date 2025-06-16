@@ -46,12 +46,9 @@ require("_partials/errors.php");
             <button type="submit" class="btn-primary">Create/Update Album</button>
         </div>
     </form>
-    <!-- Album sharing link -->
-    <button onclick="navigator.clipboard.writeText(window.location.href);alert('Link copied!')">Share Album</button>
 
-
-        <!-- Invitation form (only for owner/admin) -->
-        <?php if (isAdmin() || isAlbumOwner($albumData, $_SESSION['user_id'])): ?>
+    <?php if (($albumData['album_id'] ?? 0) > 0 && (isAdmin() || isAlbumOwner($albumData, $_SESSION['user_id']))): ?>
+<!--                added this thing here because otherwise it wouldnt work to invite as a user-->
             <form id="invite-user-form">
                 <input type="email" name="email" placeholder="Invite by email" required>
                 <select name="permission">
@@ -68,6 +65,6 @@ require("_partials/errors.php");
 <script type="module">
     import { setupAlbumInviteForm } from './assets/js/components/albums.js';
     setupAlbumInviteForm(<?= json_encode($albumData['album_id'] ?? 0) ?>);
+    // thx chat for this little snippet
 </script>
 
-                                                            <!--// make this shit into javascript, seperate it bro plzzzzz-->

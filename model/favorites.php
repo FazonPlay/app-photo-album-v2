@@ -1,29 +1,26 @@
 <?php
-//
-//function getFavoritePhotos(PDO $pdo, int $userId): array|string {
-//    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//    $query = "SELECT * FROM photos WHERE user_id = :user_id AND is_favorite = 1";
-//    $prep = $pdo->prepare($query);
-//    $prep->bindValue(':user_id', $userId, PDO::PARAM_INT);
-//    try {
-//        $prep->execute();
-//        return $prep->fetchAll(PDO::FETCH_ASSOC);
-//    } catch (PDOException $e) {
-//        return "Error: " . $e->getMessage();
-//    }
-//}
-//
-//function setPhotoFavorite(PDO $pdo, int $photoId, int $userId, bool $favorite): bool|string {
-//    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//    $query = "UPDATE photos SET is_favorite = :fav WHERE photo_id = :pid AND user_id = :uid";
-//    $prep = $pdo->prepare($query);
-//    $prep->bindValue(':fav', $favorite ? 1 : 0, PDO::PARAM_INT);
-//    $prep->bindValue(':pid', $photoId, PDO::PARAM_INT);
-//    $prep->bindValue(':uid', $userId, PDO::PARAM_INT);
-//    try {
-//        $prep->execute();
-//        return true;
-//    } catch (PDOException $e) {
-//        return "Error: " . $e->getMessage();
-//    }
-//}
+function getFavoritePhotos(PDO $pdo, int $userId, int $page = 1, int $itemsPerPage = 20): array|string {
+$offset = ($page - 1) * $itemsPerPage;
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$query = "SELECT * FROM photos WHERE user_id = :user_id AND is_favorite = 1 ORDER BY upload_date DESC LIMIT :limit OFFSET :offset";
+$prep = $pdo->prepare($query);
+$prep->bindValue(':user_id', $userId, PDO::PARAM_INT);
+$prep->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+$prep->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+try {
+$prep->execute();
+$photos = $prep->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+return "Error: " . $e->getMessage();
+}
+
+$countQuery = "SELECT COUNT(*) AS total FROM photos WHERE user_id = :user_id AND is_favorite = 1";
+$countPrep = $pdo->prepare($countQuery);
+$countPrep->bindValue(':user_id', $userId, PDO::PARAM_INT);
+$countPrep->execute();
+$count = $countPrep->fetch(PDO::FETCH_ASSOC);
+
+return ['photos' => $photos, 'total' => $count['total']];
+}
