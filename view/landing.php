@@ -51,116 +51,114 @@
         </div>
     </section>
 
-<?php else: ?>
-    <div class="dashboard-container">
-        <?php require "_partials/sidebar.php"; ?>
-        <main class="main-content">
-            <div class="dashboard-header">
-                <h1>Welcome back, <?php echo htmlspecialchars($user->username ?? 'User', ENT_QUOTES, 'UTF-8'); ?>!</h1>
-                <div class="actions">
-                    <a href="?component=album&action=create" class="btn"><i class="fas fa-plus"></i> New Album</a>
-                    <a href="?component=photo&action=upload" class="btn btn-primary"><i class="fas fa-upload"></i> Upload Photos</a>
+    <?php else: ?>
+        <div class="dashboard-container">
+            <?php require "_partials/sidebar.php"; ?>
+            <main class="main-content">
+                <div class="dashboard-header">
+                    <h1>Welcome back, <?php echo htmlspecialchars($user->username ?? 'User', ENT_QUOTES, 'UTF-8'); ?>!</h1>
+                    <div class="actions">
+                        <a href="?component=album&action=create" class="btn"><i class="fas fa-plus"></i> New Album</a>
+                        <a href="?component=photo&action=upload" class="btn btn-primary"><i class="fas fa-upload"></i> Upload Photos</a>
+                    </div>
                 </div>
-            </div>
 
-            <?php if (!empty($recentAlbums)): ?>
+                <!-- Recent Albums Section -->
                 <section class="dashboard-section">
                     <div class="section-header">
                         <h2>Recent Albums</h2>
                         <a href="?component=albums" class="view-all">View all</a>
                     </div>
-                    <div class="album-grid">
-                        <?php foreach ($recentAlbums as $album): ?>
-                            <div class="album-card">
-                                <div class="album-thumbnail">
-                                    <?php if (!empty($album->cover_photo_id)): ?>
-                                        <img src="<?php echo htmlspecialchars($album->coverPhotoUrl, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($album->title, ENT_QUOTES, 'UTF-8'); ?>">
-                                    <?php else: ?>
-                                        <div class="no-cover">
-                                            <i class="fas fa-images"></i>
-                                        </div>
-                                    <?php endif; ?>
+                    <?php if (empty($recentAlbums)): ?>
+                        <div class="empty-state">
+                            <p>No recent albums</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="album-grid">
+                            <?php foreach ($recentAlbums as $album): ?>
+                                <div class="album-card">
+                                    <div class="album-thumbnail">
+                                        <?php if (!empty($album->cover_photo_id)): ?>
+                                            <img src="<?php echo htmlspecialchars($album->coverPhotoUrl, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($album->title, ENT_QUOTES, 'UTF-8'); ?>">
+                                        <?php else: ?>
+                                            <div class="no-cover">
+                                                <i class="fas fa-images"></i>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="album-info">
+                                        <h3><?php echo htmlspecialchars($album->title, ENT_QUOTES, 'UTF-8'); ?></h3>
+                                        <p><?php echo htmlspecialchars($album->photoCount, ENT_QUOTES, 'UTF-8'); ?> photos</p>
+                                    </div>
                                 </div>
-                                <div class="album-info">
-                                    <h3><?php echo htmlspecialchars($album->title, ENT_QUOTES, 'UTF-8'); ?></h3>
-                                    <p><?php echo htmlspecialchars($album->photoCount, ENT_QUOTES, 'UTF-8'); ?> photos</p>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 </section>
-            <?php endif; ?>
 
-            <?php if (!empty($favoritePhotos)): ?>
+                <!-- Favorite Photos Section -->
                 <section class="dashboard-section">
                     <div class="section-header">
                         <h2>Favorite Photos</h2>
                         <a href="?component=favorites" class="view-all">View all</a>
                     </div>
-                    <div class="photo-grid">
-                        <?php foreach ($favoritePhotos as $photo): ?>
-                            <div class="photo-card">
-                                <div class="photo-thumbnail">
-                                    <img src="<?php echo htmlspecialchars($photo->file_path, ENT_QUOTES, 'UTF-8'); ?>"
-                                         alt="<?php echo htmlspecialchars($photo->title ?? 'Photo', ENT_QUOTES, 'UTF-8'); ?>">                                    <div class="photo-actions">
-                                    <button class="favorite-btn active"><i class="fas fa-heart"></i></button>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </section>
-            <?php endif; ?>
-
-            <?php if (!empty($sharedAlbums)): ?>
-                <section class="dashboard-section">
-                    <div class="section-header">
-                        <h2>Shared with You</h2>
-                        <a href="?component=shared" class="view-all">View all</a>
-                    </div>
-                    <div class="album-grid">
-                        <?php foreach ($sharedAlbums as $album): ?>
-                            <div class="album-card shared">
-                                <div class="album-thumbnail">
-                                    <?php if (!empty($album->cover_photo_id)): ?>
-                                        <img src="<?php echo htmlspecialchars($album->coverPhotoUrl, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($album->title, ENT_QUOTES, 'UTF-8'); ?>">
-                                    <?php else: ?>
-                                        <div class="no-cover">
-                                            <i class="fas fa-images"></i>
+                    <?php if (empty($favoritePhotos)): ?>
+                        <div class="empty-state">
+                            <p>No favorite photos</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="photo-grid">
+                            <?php foreach ($favoritePhotos as $photo): ?>
+                                <div class="photo-card">
+                                    <div class="photo-thumbnail">
+                                        <img src="<?php echo htmlspecialchars($photo->file_path, ENT_QUOTES, 'UTF-8'); ?>"
+                                             alt="<?php echo htmlspecialchars($photo->title ?? 'Photo', ENT_QUOTES, 'UTF-8'); ?>">
+                                        <div class="photo-actions">
+                                            <button class="favorite-btn active"><i class="fas fa-heart"></i></button>
                                         </div>
-                                    <?php endif; ?>
+                                    </div>
                                 </div>
-                                <div class="album-info">
-                                    <h3><?php echo htmlspecialchars($album->title, ENT_QUOTES, 'UTF-8'); ?></h3>
-                                    <p>Shared by <?php echo htmlspecialchars($album->ownerName, ENT_QUOTES, 'UTF-8'); ?></p>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 </section>
-            <?php endif; ?>
 
-            <?php if (!empty($pendingInvitations)): ?>
+                <!-- Album Invitations Section -->
                 <section class="dashboard-section">
                     <div class="section-header">
                         <h2>Album Invitations</h2>
+                        <a href="?component=invitations" class="view-all">View all</a>
                     </div>
-                    <div class="invitations-list">
-                        <?php foreach ($pendingInvitations as $invitation): ?>
-                            <div class="invitation-card">
-                                <div class="invitation-details">
-                                    <h3><?php echo htmlspecialchars($invitation->albumTitle, ENT_QUOTES, 'UTF-8'); ?></h3>
-                                    <p><strong>From:</strong> <?php echo htmlspecialchars($invitation->senderName, ENT_QUOTES, 'UTF-8'); ?></p>
-                                    <p><?php echo htmlspecialchars($invitation->message ?? '', ENT_QUOTES, 'UTF-8'); ?></p>
-                                </div>
-                                <div class="invitation-actions">
-                                    <a href="?component=invitations&action=accept&id=<?php echo htmlspecialchars($invitation->invitation_id, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-small">Accept</a>
-                                    <a href="?component=invitations&action=decline&id=<?php echo htmlspecialchars($invitation->invitation_id, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-small btn-outline">Decline</a>
-                                </div>
+                    <?php if (!empty($pendingInvitations)): ?>
+                        <div class="section">
+                            <h2>Pending Invitations</h2>
+                            <div class="invitation-list">
+                                <?php foreach ($pendingInvitations as $invitation): ?>
+                                    <div class="invitation-card" data-token="<?php echo htmlspecialchars($invitation['token']); ?>">
+                                        <div class="invitation-info">
+                                            <h3><?php echo htmlspecialchars($invitation['album_title']); ?></h3>
+                                            <p>From: <?php echo htmlspecialchars($invitation['sender_name']); ?></p>
+                                            <p>Permission: <?php echo ucfirst(htmlspecialchars($invitation['permission_level'])); ?></p>
+                                            <?php if (!empty($invitation['message'])): ?>
+                                                <p>Message: <?php echo htmlspecialchars($invitation['message']); ?></p>
+                                            <?php endif; ?>
+                                            <p>Expires: <?php echo date('F j, Y', strtotime($invitation['expires_at'])); ?></p>
+                                        </div>
+                                        <div class="invitation-actions">
+                                            <button class="btn btn-success accept-invitation">Accept</button>
+                                            <button class="btn btn-danger decline-invitation">Decline</button>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
+                        </div>
+                    <?php endif; ?>
                 </section>
-            <?php endif; ?>
-        </main>
-    </div>
-<?php endif; ?>
+            </main>
+        </div>
+
+        <script type="module">
+            import { setupInvitationHandlers } from './assets/js/components/invitations.js';
+            document.addEventListener('DOMContentLoaded', setupInvitationHandlers);
+        </script>
+    <?php endif; ?>
