@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var PDO $pdo
+ */
 registerCss("assets/css/photos.css");
 registerCss("assets/css/dashboard.css");
 require "model/photos.php";
@@ -68,12 +71,21 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
         $page = intval($_GET['page'] ?? 1);
         $userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
         $favorites = isset($_GET['favorites']) && $_GET['favorites'] == 1;
+        $currentUserId = $_SESSION['user_id'] ?? 0;
+        $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+
+        // If a regular user tries to view all photos or another user's photos,
+        // restrict them to only their own photos
+        if (!$isAdmin && ($userId === null || $userId !== $currentUserId)) {
+            $userId = $currentUserId;
+        }
 
         if ($favorites && isset($_SESSION['user_id'])) {
             $result = getFavoritePhotos($pdo, $_SESSION['user_id'], $page, 20);
         } elseif ($userId) {
             $result = getPhotosByUser($pdo, $userId, $page, 20);
         } else {
+            // This will only execute for admins now
             $result = getPhotos($pdo, $page, 20);
         }
 

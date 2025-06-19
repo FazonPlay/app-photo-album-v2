@@ -11,12 +11,14 @@
                 </div>
             </form>
             <div id="photo-errors" class="alert d-none"></div>
-            <select id="user-select" class="user-select">
-                <option value="">All Users</option>
-                <?php foreach ($users as $user): ?>
-                    <option value="<?php echo $user['user_id']; ?>"><?php echo htmlspecialchars($user['username']); ?></option>
-                <?php endforeach; ?>
-            </select>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                <select id="user-select" class="user-select">
+                    <option value="">All Users</option>
+                    <?php foreach ($users as $user): ?>
+                        <option value="<?php echo $user['user_id']; ?>"><?php echo htmlspecialchars($user['username']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
         </div>
         <div class="photo-gallery" id="photo-list"></div>
         <nav>
