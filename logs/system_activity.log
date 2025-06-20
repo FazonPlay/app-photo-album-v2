@@ -181,3 +181,10 @@ works to a certain degree, needs more details like what was changed etc
 [2025-06-20 21:43:26] User ID: 1 | Username: admin | Action: create | Entity: user | ID: 32 | Details: user 'testlog' was created | Role: lifetime | IP: 127.0.0.1
 [2025-06-20 21:44:22] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 23 | Details: user 'user1' was updated | IP: 127.0.0.1
 [2025-06-20 21:44:26] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 23 | Details: user 'user' was updated | IP: 127.0.0.1
+[2025-06-20 22:00:11] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 22:15:24] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 22:22:02] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 22:23:42] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 22:25:30] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 1 | Details: user 'admin' was updated | Changes: profile_picture: 'N/A' → 'uploads/profile_pictures/profi...' | IP: 127.0.0.1
+[2025-06-20 22:25:36] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 22:25:41] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
