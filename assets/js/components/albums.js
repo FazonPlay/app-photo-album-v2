@@ -1,16 +1,23 @@
-import { toggleFavorite } from "../services/photo.js";
 import { showToast } from "./shared/toast.js";
 
 export const refreshAlbumList = async (page = 1) => {
     const albumList = document.getElementById('album-list');
     const pagination = document.getElementById('album-pagination');
+    const userSelect = document.getElementById('user-select');
+    const userId = userSelect ? userSelect.value : '';
     let urlPage = page || 1;
 
-    const response = await fetch(`index.php?component=albums&page=${urlPage}`, {
+    let url = `index.php?component=albums&page=${urlPage}`;
+    if (userId) url += `&user_id=${userId}`;
+
+
+
+    const response = await fetch(url, {
         method: 'GET',
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
     });
     const data = await response.json();
+
 
     if (data.errors) {
         albumList.innerHTML = `<div class="alert alert-danger">${data.errors.join('<br>')}</div>`;

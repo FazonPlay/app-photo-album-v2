@@ -63,3 +63,45 @@ export const updatePhoto = async (id, title, description) => {
     }
     return result;
 };
+
+
+export const addTagToPhoto = async (photoId, tag) => {
+    const data = new URLSearchParams({
+        action: 'add_tag',
+        id: photoId,
+        tag: tag
+    });
+
+    const response = await fetch('index.php?component=photos', {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: data
+    });
+
+    return await response.json();
+};
+
+export const removeTagFromPhoto = async (photoId, tag) => {
+    const data = new URLSearchParams({
+        action: 'remove_tag',
+        id: photoId,
+        tag: tag
+    });
+
+    const response = await fetch('index.php?component=photos', {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: data
+    });
+
+    return await response.json();
+};
+
+export const getAvailableTags = async () => {
+    const response = await fetch('index.php?component=photos&action=get_tags', {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+
+    return await response.json();
+};

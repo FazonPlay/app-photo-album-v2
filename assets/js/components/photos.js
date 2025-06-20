@@ -42,12 +42,12 @@ export const refreshPhotoList = async (page = 1) => {
 
     setupDeletePhotoButtons();
     setupFavoritePhotoButtons();
-    setupEditPhotoButtons(); // Add this line
+    setupEditPhotoButtons();
 
 
     // Pagination
     const total = data.count || 0;
-    const itemsPerPage = 15;
+    const itemsPerPage = 20;
     const totalPages = Math.ceil(total / itemsPerPage);
     let pagHtml = '';
     for (let i = 1; i <= totalPages; i++) {

@@ -5,6 +5,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 require 'includes/database.php';
 require ("includes/helper.php");
+require "includes/logger.php";
 
 $customCssFiles = [];
 
@@ -16,6 +17,7 @@ function registerCss($cssFile) {
 }
 
 if (isset($_GET['disconnect'])) {
+    logLogout();
     session_destroy();
     header("Location: index.php");
     exit();

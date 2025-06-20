@@ -7,7 +7,6 @@
             <h1>Admin Dashboard</h1>
             <div class="actions">
                 <a href="?component=user&action=create" class="btn"><i class="fas fa-plus"></i> Add User</a>
-                <a href="?component=settings" class="btn btn-primary"><i class="fas fa-cog"></i> System Settings</a>
             </div>
         </div>
 

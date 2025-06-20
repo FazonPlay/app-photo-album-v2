@@ -1,0 +1,75 @@
+
+[2025-06-20 08:00:49] User ID: 0 | Username: Guest | Action: register | Entity: user | ID: 27 | Details: New user registered: testingcreateuser | IP: 127.0.0.1
+
+logRegistration() not working properly
+
+
+[2025-06-20 08:22:41] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 40 | Details: album 'album' was deleted | IP: 127.0.0.1
+[2025-06-20 08:22:52] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 39 | Details: album 'album' was deleted | IP: 127.0.0.1
+[2025-06-20 08:22:59] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 38 | Details: album 'album' was deleted | IP: 127.0.0.1
+[2025-06-20 08:23:08] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 36 | Details: album 'album' was deleted | IP: 127.0.0.1
+[2025-06-20 08:24:07] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 35 | Details: album 'album' was deleted | IP: 127.0.0.1
+
+
+logDeletion() works to a certain degree, the name of the album isnt specified and is instead "album" hardcoded.
+
+
+
+[2025-06-20 08:25:53] User ID: 1 | Username: admin | Action: delete | Entity: photo | ID: 51 | Details: photo 'photo' was deleted | IP: 127.0.0.1
+
+same thing for photos.
+
+
+[2025-06-20 09:35:08] User ID: 1 | Username: admin | Action: update | Entity: album | ID: 37 | Details: album 'album' was updated | IP: 127.0.0.1
+
+works to a certain degree, needs more details like what was changed etc
+
+
+[2025-06-20 09:35:56] User ID: 1 | Username: admin | Action: delete | Entity: user | ID: 22 | Details: user 'user' was deleted | IP: 127.0.0.1
+
+[2025-06-20 09:36:12] User ID: 1 | Username: admin | Action: delete | Entity: user | ID: 24 | Details: user 'user' was deleted | IP: 127.0.0.1
+(this one was an admin that got deleted, yet it still says user...)
+
+[2025-06-20 09:54:30] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 19 | Details: user 'weww' was updated | IP: 127.0.0.1
+[2025-06-20 09:54:36] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 19 | Details: user 'wawawii' was updated | IP: 127.0.0.1
+
+ needs more details like what was changed etc
+[2025-06-20 09:55:46] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 09:55:51] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 09:55:54] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 10:14:44] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 10:14:48] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 10:14:54] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 10:18:04] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 10:18:09] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 10:23:53] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 10:23:55] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 11:47:33] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 11:47:38] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 11:48:03] User ID: 23 | Username: user | Action: update | Entity: album | ID: 41 | Details: album 'album' was updated | IP: 127.0.0.1
+[2025-06-20 11:51:36] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 11:51:38] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 11:52:36] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 11:52:41] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 11:54:28] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 11:54:30] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 11:56:25] User ID: 1 | Username: admin | Action: update | Entity: album | ID: 41 | Details: album 'album' was updated | IP: 127.0.0.1
+[2025-06-20 12:32:16] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 12:32:23] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 12:32:46] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 12:32:49] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 12:33:00] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 12:33:05] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 12:33:38] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 12:33:48] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 12:38:47] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 12:39:05] User ID: 0 | Username: Guest | Action: register | Entity: user | ID: 28 | Details: New user registered: umhello | IP: 127.0.0.1
+[2025-06-20 12:39:18] User ID: 28 | Username: umhello | Action: login | Entity: user | ID: 28 | Details: Regular user 'umhello' logged in | IP: 127.0.0.1
+[2025-06-20 12:39:20] User ID: 28 | Username: umhello | Action: logout | Entity: user | ID: 28 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 12:39:32] User ID: 28 | Username: umhello | Action: login | Entity: user | ID: 28 | Details: Regular user 'umhello' logged in | IP: 127.0.0.1
+[2025-06-20 12:59:45] User ID: 28 | Username: umhello | Action: logout | Entity: user | ID: 28 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 12:59:47] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 13:36:32] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 13:46:49] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 13:47:05] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 13:47:10] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1

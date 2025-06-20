@@ -79,3 +79,4 @@ function canViewPhoto($photo, $userId)
     $album = $stmt->fetch(PDO::FETCH_ASSOC);
     return canViewAlbum($album, $userId);
 }
+

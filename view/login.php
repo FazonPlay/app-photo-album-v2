@@ -27,8 +27,8 @@
         </form>
 
         <div class="auth-links">
-            <p>Don't have an account? <a href="<?php echo ($_SERVER["HTTP_HOST"] == "localhost") ? '/BigProjects/Fullstack3Month/signup' : '/signup'; ?>">Sign Up</a></p>
-            <p><a href="<?php echo ($_SERVER["HTTP_HOST"] == "localhost") ? '/BigProjects/Fullstack3Month/forgot-password' : '/forgot-password'; ?>">Forgot Password?</a></p>
+            <p>Don't have an account? <a href="index.php?component=create_user">Sign Up</a></p>
+            <p><a href="index.php?component=forgot-password">Forgot Password?</a></p>
         </div>
     </div>
 </div>
@@ -37,7 +37,6 @@
     import { login } from "./assets/js/services/login.js";
 
     document.addEventListener('DOMContentLoaded', () => {
-        const createAccountBtn = document.querySelector('#create-account-btn');
         const validLoginBtn = document.querySelector('#valid-login-btn');
         const loginForm = document.querySelector('#login-form');
         const errorElement = document.querySelector('#errors');
@@ -61,11 +60,6 @@
                 errorElement.innerHTML = errors.join('');
                 errorElement.style.display = 'block';
             }
-        });
-
-        createAccountBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'index.php?component=create_user';
         });
     });
 </script>

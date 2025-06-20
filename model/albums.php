@@ -1,24 +1,45 @@
 <?php
 
-function getAlbums(PDO $pdo, int $page = 1, int $itemsPerPage = 20): array|string {
+function getAlbums(PDO $pdo, int $page = 1, int $itemsPerPage = 20, ?int $userId = null): array|string {
     $offset = ($page - 1) * $itemsPerPage;
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Ensure limit and offset are valid integers to prevent SQL injection
+    $limit = (int)$itemsPerPage;
+    $offset = (int)$offset;
+
+    $params = [];
+    $whereClause = "";
+
+    if ($userId !== null) {
+        // Admin or filtered by user ID
+        $whereClause = "WHERE a.user_id = :user_id";
+        $params[':user_id'] = $userId;
+    } else if (isset($_SESSION['user_id']) && (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin')) {
+        // Regular user: show their own, public, or shared albums
+        $currentUserId = $_SESSION['user_id'];
+        $whereClause = "WHERE (a.user_id = :user_id OR a.visibility = 'public' 
+            OR EXISTS (SELECT 1 FROM album_access aa WHERE aa.album_id = a.album_id AND aa.user_id = :user_id))";
+        $params[':user_id'] = $currentUserId;
+    }
+
     $query = "SELECT a.*, 
-              p.thumbnail_path,
-              p.file_path,
+              p.thumbnail_path, p.file_path,
               CASE WHEN p.thumbnail_path IS NOT NULL AND p.thumbnail_path != '' 
-                   THEN p.thumbnail_path 
-                   ELSE p.file_path 
-              END AS cover_path,
+                   THEN p.thumbnail_path ELSE p.file_path END AS cover_path,
               p.is_favorite
               FROM albums a
               LEFT JOIN photos p ON a.cover_photo_id = p.photo_id
+              $whereClause
               ORDER BY a.creation_date DESC
-              LIMIT :limit OFFSET :offset";
+              LIMIT $limit OFFSET $offset";
+
     $prep = $pdo->prepare($query);
-    $prep->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
-    $prep->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+    foreach ($params as $key => $value) {
+        $type = (strpos($key, 'user_id') !== false) ? PDO::PARAM_INT : PDO::PARAM_STR;
+        $prep->bindValue($key, $value, $type);
+    }
 
     try {
         $prep->execute();
@@ -27,13 +48,21 @@ function getAlbums(PDO $pdo, int $page = 1, int $itemsPerPage = 20): array|strin
         return "Error: " . $e->getMessage();
     }
 
-    $countQuery = "SELECT COUNT(*) AS total FROM albums";
+    // Count total albums using the same WHERE clause
+    $countQuery = "SELECT COUNT(*) AS total FROM albums a $whereClause";
     $countPrep = $pdo->prepare($countQuery);
+
+    foreach ($params as $key => $value) {
+        $type = (strpos($key, 'user_id') !== false) ? PDO::PARAM_INT : PDO::PARAM_STR;
+        $countPrep->bindValue($key, $value, $type);
+    }
+
     $countPrep->execute();
     $count = $countPrep->fetch(PDO::FETCH_ASSOC);
 
     return ['albums' => $albums, 'total' => $count['total']];
 }
+
 
 function deleteAlbum(PDO $pdo, int $albumId): bool|string {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -176,6 +205,8 @@ function acceptAlbumInvitation(PDO $pdo, string $token, int $userId)
         ->execute([':id' => $inv['invitation_id']]);
     return true;
 }
+
+
 
 
 

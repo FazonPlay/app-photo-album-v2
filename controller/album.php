@@ -3,8 +3,8 @@
  * @var PDO $pdo
  */
 registerCss("assets/css/album.css");
-require_once "model/album.php";
-require_once "model/photos.php";
+require "model/album.php";
+require "model/photos.php";
 
 $errors = [];
 $albumId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($albumId > 0) {
             $result = updateAlbum($pdo, $albumId, $title, $description, $visibility, $selectedPhotos);
             if ($result === true) {
+                logUpdate('album', $albumId, 'album');
                 header("Location: index.php?component=albums");
                 exit;
             } else {

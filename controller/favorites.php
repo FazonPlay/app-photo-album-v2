@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var PDO $pdo
+ */
 registerCss("assets/css/photos.css");
 registerCss("assets/css/dashboard.css");
 require "model/favorites.php";

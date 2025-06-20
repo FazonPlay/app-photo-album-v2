@@ -70,3 +70,4 @@ $currentComponent = $_GET['component'] ?? 'landing';
         </ul>
     </nav>
 </aside>
+
