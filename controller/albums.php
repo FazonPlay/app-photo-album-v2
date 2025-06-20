@@ -21,7 +21,10 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
             if (isAdmin() || isAlbumOwner($album, $userId)) {
                 $result = deleteAlbum($pdo, $albumId);
                 if ($result === true) {
-                    logDeletion('album', $albumId, 'album');
+                    logDeletion('album', $albumId, $album['title'], [
+                        'visibility' => $album['visibility'] ?? 'unknown',
+                        'photo_count' => count(getPhotosByAlbum($pdo, $albumId))
+                    ]);
                 }
                 header('Content-Type: application/json');
                 echo json_encode(['success' => $result === true]);
@@ -37,6 +40,12 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
             $message = $_POST['message'] ?? '';
             $expiresAt = date('Y-m-d H:i:s', strtotime('+7 days'));
             $token = inviteUserToAlbum($pdo, $albumId, $userId, $recipientEmail, $permission, $message, $expiresAt);
+            if ($token) {
+                $album = getAlbum($pdo, $albumId);
+                logAlbumAccess('invite_sent', $albumId, $album['title'], 0, $recipientEmail, $permission, [
+                    'message' => $message
+                ]);
+            }
             echo json_encode(['success' => true, 'token' => $token]);
             exit();
         }

@@ -60,7 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password_hash = password_hash($password, PASSWORD_BCRYPT);
             $result = insertUser($pdo, $username, $email, $password_hash, $roles, $is_active);
             if ($result === true) {
-                logRegistration($userId, $username);
+                $userId = $pdo->lastInsertId();
+                logCreation('user', $userId, $username, [
+                    'email' => $email,
+                    'role' => $roles
+                ]);
+            }            if ($result === true) {
+//                logRegistration($userId, $username); doesnt work atm
                 header("Location: index.php?component=users");
                 exit;
             } else {

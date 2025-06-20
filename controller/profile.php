@@ -88,6 +88,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $result = updateUserProfile($pdo, $user_id, $updateData);
+        if ($result === true) {
+            $changes = [];
+            foreach ($updateData as $key => $value) {
+                if ($key != 'password' && $profileData[$key] != $value) {
+                    $changes[$key] = $value;
+                }
+            }
+
+            if (!empty($changes)) {
+                logUpdate('user', $user_id, $username, $changes, [
+                    'username' => $profileData['username'],
+                    'email' => $profileData['email']
+                ]);
+            }
+        }
+
 
         if ($result === true) {
             $success = true;

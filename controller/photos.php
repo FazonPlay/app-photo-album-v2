@@ -17,6 +17,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
             $photoId = intval($_POST['id']);
             $result = deletePhoto($pdo, $photoId);
 
+
             header('Content-Type: application/json');
             echo json_encode(['success' => $result === true]);
             exit();
@@ -32,6 +33,8 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
                 $filePath = $uploadDir . $filename;
                 if (move_uploaded_file($_FILES['photo']['tmp_name'], $filePath)) {
                     $result = addPhoto($pdo, $title, $filePath, $userId);
+
+
                     header('Content-Type: application/json');
                     echo json_encode(['success' => is_numeric($result)]);
                     exit();
@@ -48,6 +51,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
             $photoId = intval($_POST['id']);
             $userId = $_SESSION['user_id'] ?? 0;
             $result = toggleFavorite($pdo, $photoId, $userId);
+
             header('Content-Type: application/json');
             echo json_encode($result);
             exit();

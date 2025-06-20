@@ -1,10 +1,31 @@
 <?php
 $currentComponent = $_GET['component'] ?? 'landing';
+$user = null;
+
+// Fetch user data if logged in
+if (isset($_SESSION['user_id'])) {
+    try {
+        // Get user data from users and user_profiles tables
+        $stmt = $pdo->prepare("
+            SELECT u.username, u.email, u.roles, up.first_name, up.last_name, up.bio, up.profile_picture
+            FROM users u
+            LEFT JOIN user_profiles up ON u.user_id = up.user_id
+            WHERE u.user_id = :user_id
+        ");
+        $stmt->execute(['user_id' => $_SESSION['user_id']]);
+        $user = $stmt->fetch(PDO::FETCH_OBJ);
+    } catch (Exception $e) {
+        // Handle error silently
+    }
+}
+
+// Use display name (first name + last name if available, otherwise username)
+$displayName = $user ? (trim($user->first_name . ' ' . $user->last_name) ?: $user->username) : 'Guest';
 ?>
 <aside class="sidebar">
     <div class="user-info">
         <div class="user-avatar">
-            <?php if (!empty($user->profile_picture)): ?>
+            <?php if ($user && !empty($user->profile_picture)): ?>
                 <img src="<?php echo htmlspecialchars($user->profile_picture, ENT_QUOTES, 'UTF-8'); ?>" alt="Profile">
             <?php else: ?>
                 <div class="default-avatar">
@@ -12,9 +33,11 @@ $currentComponent = $_GET['component'] ?? 'landing';
                 </div>
             <?php endif; ?>
         </div>
-        <h3><?php echo htmlspecialchars($user->username ?? '', ENT_QUOTES, 'UTF-8'); ?></h3>
+        <h3><?php echo htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8'); ?></h3>
+        <?php if ($user && !empty($user->email)): ?>
+            <p class="user-email"><?php echo htmlspecialchars($user->email, ENT_QUOTES, 'UTF-8'); ?></p>
+        <?php endif; ?>
     </div>
-
     <nav class="dashboard-nav">
         <ul>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
@@ -45,6 +68,12 @@ $currentComponent = $_GET['component'] ?? 'landing';
                 <li class="<?php echo $currentComponent === 'profile' ? 'active' : ''; ?>">
                     <a href="?component=profile"><i class="fas fa-share-alt"></i> Edit Profile</a>
                 </li>
+                <li class="<?php echo $currentComponent === 'albums_public' ? 'active' : ''; ?>">
+                    <a href="?component=albums_public"><i class="fas fa-images"></i> Public Albums</a>
+                </li>
+                <li class="<?php echo $currentComponent === 'logs' ? 'active' : ''; ?>">
+                    <a href="?component=logs"><i class="fas fa-images"></i> Logs</a>
+                </li>
             <?php else: ?>
                 <li class="<?php echo $currentComponent === 'landing' ? 'active' : ''; ?>">
                     <a href="?component=landing"><i class="fas fa-home"></i> Dashboard</a>
@@ -66,6 +95,9 @@ $currentComponent = $_GET['component'] ?? 'landing';
                 </li>
                 <li class="<?php echo $currentComponent === 'profile' ? 'active' : ''; ?>">
                     <a href="?component=profile"><i class="fas fa-share-alt"></i> Edit Profile</a>
+                </li>
+                <li class="<?php echo $currentComponent === 'albums_public' ? 'active' : ''; ?>">
+                    <a href="?component=albums_public"><i class="fas fa-images"></i> Public Albums</a>
                 </li>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <li>

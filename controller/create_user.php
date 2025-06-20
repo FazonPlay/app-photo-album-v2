@@ -22,8 +22,9 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
         if ($action === 'create') {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $userId = create_user($pdo, $username, $email, $hashedPassword);
+
             if ($userId) {
-                logRegistration($userId, $username);
+                logRegistration($userId, $username, $email);
                 header("Content-Type: application/json");
                 echo json_encode(['success' => true, 'userId' => $userId]);
                 exit();

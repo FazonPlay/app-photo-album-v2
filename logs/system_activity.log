@@ -129,3 +129,55 @@ works to a certain degree, needs more details like what was changed etc
 [2025-06-20 19:50:29] User ID: 1 | Username: admin | Action: update | Entity: album | ID: 53 | Details: album 'album' was updated | IP: 127.0.0.1
 [2025-06-20 19:56:32] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
 [2025-06-20 19:56:37] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 20:04:29] User ID: 23 | Username: user | Action: update | Entity: album | ID: 49 | Details: album 'album' was updated | IP: 127.0.0.1
+[2025-06-20 20:04:31] User ID: 23 | Username: user | Action: update | Entity: album | ID: 49 | Details: album 'album' was updated | IP: 127.0.0.1
+[2025-06-20 20:05:35] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 20:05:37] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 20:06:45] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 20:06:48] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 20:21:39] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 20:21:41] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 20:21:48] User ID: 1 | Username: admin | Action: update | Entity: album | ID: 56 | Details: album 'album' was updated | IP: 127.0.0.1
+[2025-06-20 20:21:50] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 20:21:55] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-20 20:30:40] User ID: 23 | Username: user | Action: update | Entity: album | ID: 41 | Details: album 'album' was updated | IP: 127.0.0.1
+[2025-06-20 20:31:03] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 20:31:05] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 20:40:59] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 20:41:01] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 20:49:31] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 20:49:33] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 21:13:46] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 21:13:50] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 21:13:52] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 21:14:02] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 21:21:17] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 21:21:22] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 21:21:40] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 21:24:16] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 21:27:25] User ID: 1 | Username: admin | Action: create | Entity: album | ID: 58 | Details: album 'testkiogagaib' was created | Visibility: restricted | Description: awsef... | IP: 127.0.0.1
+[2025-06-20 21:27:44] User ID: 1 | Username: admin | Action: update | Entity: album | ID: 58 | Details: album 'testlogupdate' was updated | Changes: title: 'N/A' → 'testlogupdate', description: 'N/A' → 'umhi', visibility: 'N/A' → 'public' | IP: 127.0.0.1
+[2025-06-20 21:30:39] User ID: 1 | Username: admin | Action: invite_sent | Entity: album_access | ID: 58 | Details: Invitation sent to 'u@u.com' for album 'testlogupdate' | Permission: comment | Message: asd... | IP: 127.0.0.1
+[2025-06-20 21:31:04] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 49 | Details: album 'testplzworkalbummodal' was deleted | Photos deleted: 3 | Was private | IP: 127.0.0.1
+[2025-06-20 21:31:08] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 45 | Details: album 'testwtf' was deleted | Photos deleted: 0 | Was private | IP: 127.0.0.1
+[2025-06-20 21:31:14] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 54 | Details: album 'asdf' was deleted | Photos deleted: 0 | Was private | IP: 127.0.0.1
+[2025-06-20 21:31:23] User ID: 1 | Username: admin | Action: update | Entity: album | ID: 55 | Details: album 'adawdas' was updated | Changes: title: 'N/A' → 'adawdas', description: 'N/A' → 'dsad', visibility: 'N/A' → 'private' | IP: 127.0.0.1
+[2025-06-20 21:31:27] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 55 | Details: album 'adawdas' was deleted | Photos deleted: 1 | Was private | IP: 127.0.0.1
+[2025-06-20 21:32:38] User ID: 1 | Username: admin | Action: update | Entity: album | ID: 52 | Details: album 'fasdf' was updated | Changes: title: 'N/A' → 'fasdf', description: 'N/A' → 'asdfdsaf', visibility: 'N/A' → 'private' | IP: 127.0.0.1
+[2025-06-20 21:32:43] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 52 | Details: album 'fasdf' was deleted | Photos deleted: 1 | Was private | IP: 127.0.0.1
+[2025-06-20 21:32:55] User ID: 1 | Username: admin | Action: update | Entity: album | ID: 51 | Details: album 'sadasd' was updated | Changes: title: 'N/A' → 'sadasd', description: 'N/A' → 'asD', visibility: 'N/A' → 'public' | IP: 127.0.0.1
+[2025-06-20 21:32:57] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 51 | Details: album 'sadasd' was deleted | Photos deleted: 0 | Was public | IP: 127.0.0.1
+[2025-06-20 21:34:02] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 21:34:12] User ID: 0 | Username: Guest | Action: register | Entity: user | ID: 31 | Details: New user registered: testlogbri (Email: i@i.i) | Role: user | IP: 127.0.0.1
+[2025-06-20 21:34:28] User ID: 31 | Username: testlogbri | Action: login | Entity: user | ID: 31 | Details: Regular user 'testlogbri' logged in | IP: 127.0.0.1
+[2025-06-20 21:35:04] User ID: 31 | Username: testlogbri | Action: logout | Entity: user | ID: 31 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 21:35:10] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 21:40:53] User ID: 1 | Username: admin | Action: favorite_removed | Entity: photo | ID: 69 | Details: User admin unfavorited photo 'umm' | IP: 127.0.0.1
+[2025-06-20 21:40:54] User ID: 1 | Username: admin | Action: favorite_removed | Entity: photo | ID: 69 | Details: User admin unfavorited photo 'umm' | IP: 127.0.0.1
+[2025-06-20 21:40:54] User ID: 1 | Username: admin | Action: favorite_removed | Entity: photo | ID: 69 | Details: User admin unfavorited photo 'umm' | IP: 127.0.0.1
+[2025-06-20 21:40:56] User ID: 1 | Username: admin | Action: favorite_removed | Entity: photo | ID: 69 | Details: User admin unfavorited photo 'umm' | IP: 127.0.0.1
+[2025-06-20 21:42:26] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 1 | Details: user 'admin' was updated | Changes: first_name: 'N/A' → 'yoasd' | IP: 127.0.0.1
+[2025-06-20 21:42:50] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 1 | Details: user 'admin' was updated | Changes: first_name: 'N/A' → 'uh', bio: 'N/A' → 'System administrator and photo...', profile_picture: 'N/A' → 'uploads/profile_pictures/profi...' | IP: 127.0.0.1
+[2025-06-20 21:43:26] User ID: 1 | Username: admin | Action: create | Entity: user | ID: 32 | Details: user 'testlog' was created | Role: lifetime | IP: 127.0.0.1
+[2025-06-20 21:44:22] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 23 | Details: user 'user1' was updated | IP: 127.0.0.1
+[2025-06-20 21:44:26] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 23 | Details: user 'user' was updated | IP: 127.0.0.1
