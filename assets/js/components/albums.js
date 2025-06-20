@@ -1,4 +1,5 @@
 import { showToast } from "./shared/toast.js";
+import { fetchAlbumPhotos } from "../services/album.js";
 
 export const refreshAlbumList = async (page = 1) => {
     const albumList = document.getElementById('album-list');
@@ -27,7 +28,7 @@ export const refreshAlbumList = async (page = 1) => {
 
     const albums = data.results || [];
     albumList.innerHTML = albums.map(album => `
-<div class="album-card">
+<div class="album-card" data-id="${album.album_id}">
     <div class="album-thumbnail">
         <img src="${album.cover_path || 'assets/img/default_album.jpg'}" alt="${album.title}">
     </div>
@@ -42,6 +43,38 @@ export const refreshAlbumList = async (page = 1) => {
     </div>
 </div>
 `).join('');
+    document.querySelectorAll('.album-card').forEach(card => {
+        card.addEventListener('click', async () => {
+            const albumId = card.dataset.id;
+            createPhotoModal();
+
+            const photos = await fetchAlbumPhotos(albumId);
+            const photoGrid = document.getElementById('photo-grid');
+            photoGrid.innerHTML = photos.map(photo => `
+            <img src="${photo.file_path}" 
+                 alt="" 
+                 class="img-thumbnail zoomable-photo" 
+                 style="max-height: 150px; cursor: zoom-in;" />
+        `).join('');
+
+            // Open modal
+            const modal = new bootstrap.Modal(document.getElementById('photo-modal'));
+            modal.show();
+
+            // Zoom logic
+            document.querySelectorAll('.zoomable-photo').forEach(img => {
+                img.addEventListener('click', () => {
+                    const isZoomed = img.classList.contains('zoomed');
+                    img.classList.toggle('zoomed', !isZoomed);
+                    img.style.maxHeight = isZoomed ? '150px' : '90vh';
+                    img.style.zIndex = isZoomed ? '' : '1050';
+                    img.style.position = isZoomed ? '' : 'relative';
+                });
+            });
+        });
+    });
+
+
 
     setupDeleteAlbumButtons();
 
@@ -106,3 +139,27 @@ export function setupAlbumInviteForm(albumId) {
         if (result.success) showToast('Invitation sent!');
     });
 }
+
+const createPhotoModal = () => {
+    let modal = document.getElementById('photo-modal');
+    if (modal) return; // Already created
+
+    modal = document.createElement('div');
+    modal.id = 'photo-modal';
+    modal.className = 'modal fade';
+    modal.tabIndex = -1;
+    modal.innerHTML = `
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Album Photos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="photo-grid" class="d-flex flex-wrap gap-2 justify-content-center"></div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+};

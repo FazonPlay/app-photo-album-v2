@@ -345,3 +345,33 @@ function getAvailableTags(PDO $pdo): array {
         return ['success' => false, 'error' => $e->getMessage()];
     }
 }
+function getPhotosByAlbumId(PDO $pdo, int $albumId, int $page = 1, int $itemsPerPage = 20): array|string
+{
+    $offset = ($page - 1) * $itemsPerPage;
+
+    try {
+        $query = "SELECT p.* FROM photos p 
+                  WHERE p.album_id = :album_id
+                  ORDER BY p.upload_date DESC
+                  LIMIT :limit OFFSET :offset";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':album_id', $albumId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $photos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Get the total count
+        $countQuery = "SELECT COUNT(*) FROM photos WHERE album_id = :album_id";
+        $countStmt = $pdo->prepare($countQuery);
+        $countStmt->bindValue(':album_id', $albumId, PDO::PARAM_INT);
+        $countStmt->execute();
+        $total = $countStmt->fetchColumn();
+
+        return ['photos' => $photos, 'total' => $total];
+    } catch (PDOException $e) {
+        return "Error: " . $e->getMessage();
+    }
+}

@@ -86,12 +86,15 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
 
         if ($favorites && isset($_SESSION['user_id'])) {
             $result = getFavoritePhotos($pdo, $_SESSION['user_id'], $page, 20);
+        } elseif (isset($_GET['album_id'])) {
+            $albumId = intval($_GET['album_id']);
+            $result = getPhotosByAlbumId($pdo, $albumId, $page, 20);
         } elseif ($userId) {
             $result = getPhotosByUser($pdo, $userId, $page, 20);
         } else {
-            // This will only execute for admins now
             $result = getPhotos($pdo, $page, 20);
         }
+
 
         if (is_array($result)) {
             header('Content-Type: application/json');

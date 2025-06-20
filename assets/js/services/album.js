@@ -46,3 +46,11 @@ export async function deleteAlbum(id) {
         return { success: false };
     }
 }
+
+export async function fetchAlbumPhotos(albumId) {
+    const res = await fetch(`index.php?component=photos&album_id=${albumId}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    const data = await res.json();
+    return data.results || [];
+}

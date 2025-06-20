@@ -94,3 +94,8 @@ works to a certain degree, needs more details like what was changed etc
 [2025-06-20 16:47:07] User ID: 23 | Username: user | Action: delete | Entity: album | ID: 48 | Details: album 'album' was deleted | IP: 127.0.0.1
 [2025-06-20 16:47:09] User ID: 23 | Username: user | Action: delete | Entity: album | ID: 47 | Details: album 'album' was deleted | IP: 127.0.0.1
 [2025-06-20 16:47:11] User ID: 23 | Username: user | Action: delete | Entity: album | ID: 46 | Details: album 'album' was deleted | IP: 127.0.0.1
+[2025-06-20 16:52:14] User ID: 23 | Username: user | Action: update | Entity: album | ID: 43 | Details: album 'album' was updated | IP: 127.0.0.1
+[2025-06-20 16:52:29] User ID: 23 | Username: user | Action: update | Entity: album | ID: 45 | Details: album 'album' was updated | IP: 127.0.0.1
+[2025-06-20 16:53:45] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 16:53:47] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 16:55:26] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1

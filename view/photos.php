@@ -39,7 +39,6 @@
         </nav>
     </div>
 </div>
-<link rel="stylesheet" href="assets/css/photos_custom.css">
 <script src="./assets/js/services/photo.js" type="module"></script>
 <script src="./assets/js/components/photos.js" type="module"></script>
 <script type="module">
