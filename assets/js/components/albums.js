@@ -50,29 +50,98 @@ export const refreshAlbumList = async (page = 1) => {
 
             const photos = await fetchAlbumPhotos(albumId);
             const photoGrid = document.getElementById('photo-grid');
+
+            // Updated grid with consistent thumbnail sizes
             photoGrid.innerHTML = photos.map(photo => `
-            <img src="${photo.file_path}" 
-                 alt="" 
-                 class="img-thumbnail zoomable-photo" 
-                 style="max-height: 150px; cursor: zoom-in;" />
+            <div class="photo-item">
+                <img src="${photo.file_path}"
+                     alt=""
+                     class="thumbnail-photo"
+                     data-full-src="${photo.file_path}" />
+            </div>
         `).join('');
 
-            // Open modal
+            // Open album modal
             const modal = new bootstrap.Modal(document.getElementById('photo-modal'));
             modal.show();
 
-            // Zoom logic
-            document.querySelectorAll('.zoomable-photo').forEach(img => {
-                img.addEventListener('click', () => {
-                    const isZoomed = img.classList.contains('zoomed');
-                    img.classList.toggle('zoomed', !isZoomed);
-                    img.style.maxHeight = isZoomed ? '150px' : '90vh';
-                    img.style.zIndex = isZoomed ? '' : '1050';
-                    img.style.position = isZoomed ? '' : 'relative';
+            // Add click handler for individual photos to open in full size
+            document.querySelectorAll('.thumbnail-photo').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openFullSizePhotoModal(img.dataset.fullSrc);
                 });
             });
         });
     });
+
+// New function to create/open a modal for full-size photos
+    const openFullSizePhotoModal = (imageSrc) => {
+        // Remove existing full-size modal if any
+        let existingModal = document.getElementById('full-photo-modal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        // Create new modal for full-size photo
+        const fullSizeModal = document.createElement('div');
+        fullSizeModal.id = 'full-photo-modal';
+        fullSizeModal.className = 'modal fade';
+        fullSizeModal.tabIndex = -1;
+
+        fullSizeModal.innerHTML = `
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img src="${imageSrc}" class="img-fluid full-size-photo" alt="">
+          </div>
+        </div>
+      </div>
+    `;
+
+        document.body.appendChild(fullSizeModal);
+
+        // Open the modal
+        const modal = new bootstrap.Modal(fullSizeModal);
+        modal.show();
+    };
+
+// Add this CSS to your stylesheet
+    const style = document.createElement('style');
+    style.textContent = `
+    #photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+    }
+    
+    .photo-item {
+        width: 100%;
+        aspect-ratio: 1/1;
+        overflow: hidden;
+    }
+    
+    .thumbnail-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    
+    .thumbnail-photo:hover {
+        transform: scale(1.05);
+    }
+    
+    .full-size-photo {
+        max-height: 80vh;
+    }
+`;
+    document.head.appendChild(style);
+
 
 
 
@@ -156,7 +225,7 @@ const createPhotoModal = () => {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div id="photo-grid" class="d-flex flex-wrap gap-2 justify-content-center"></div>
+            <div id="photo-grid"></div>
           </div>
         </div>
       </div>
