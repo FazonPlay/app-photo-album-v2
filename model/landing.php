@@ -15,7 +15,7 @@ function getUserData($pdo, $userId) {
 }
 
 function getRecentAlbums($pdo, $userId, $limit = 4) {
-    $limit = (int)$limit; // Avoid binding LIMIT directly
+    $limit = (int)$limit;
     $query = "SELECT a.*,
               (SELECT COUNT(*) FROM photos WHERE album_id = a.album_id) AS photoCount,
               (SELECT file_path FROM photos WHERE photo_id = a.cover_photo_id LIMIT 1) AS coverPhotoUrl
@@ -58,17 +58,17 @@ function getSharedAlbums($pdo, $userId, $limit = 4) {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 
-function getPendingInvitations($pdo, $userId) {
-    $query = "SELECT ai.*, a.title AS albumTitle, u.username AS senderName
-              FROM album_invitations ai
-              JOIN albums a ON ai.album_id = a.album_id
-              JOIN users u ON ai.sender_id = u.user_id
-              JOIN users ur ON ur.user_id = :userId
-              WHERE ai.recipient_email = ur.email
-              AND ai.is_accepted IS NULL
-              ORDER BY ai.created_at DESC";
-    $stmt = $pdo->prepare($query);
-    $stmt->bindValue(':userId', (int)$userId, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
-}
+//function getPendingInvitations($pdo, $userId) {
+//    $query = "SELECT ai.*, a.title AS albumTitle, u.username AS senderName
+//              FROM album_invitations ai
+//              JOIN albums a ON ai.album_id = a.album_id
+//              JOIN users u ON ai.sender_id = u.user_id
+//              JOIN users ur ON ur.user_id = :userId
+//              WHERE ai.recipient_email = ur.email
+//              AND ai.is_accepted IS NULL
+//              ORDER BY ai.created_at DESC";
+//    $stmt = $pdo->prepare($query);
+//    $stmt->bindValue(':userId', (int)$userId, PDO::PARAM_INT);
+//    $stmt->execute();
+//    return $stmt->fetchAll(PDO::FETCH_OBJ);
+//}

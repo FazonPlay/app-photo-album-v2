@@ -5,6 +5,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 require 'includes/database.php';
 require ("includes/helper.php");
+require "includes/logger.php";
 
 $customCssFiles = [];
 
@@ -16,6 +17,7 @@ function registerCss($cssFile) {
 }
 
 if (isset($_GET['disconnect'])) {
+    logLogout();
     session_destroy();
     header("Location: index.php");
     exit();
@@ -34,7 +36,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
 // for regular page loads, determine the component and load it BEFORE rendering HTML
 $componentName = !empty($_GET['component'])
     ? htmlspecialchars($_GET['component'], ENT_QUOTES, 'UTF-8')
-    : 'landing';
+    : (isset($_SESSION['role']) && $_SESSION['role'] === 'admin' ? 'admin' : 'landing');
 
 ob_start();
 

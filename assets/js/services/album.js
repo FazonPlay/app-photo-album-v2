@@ -1,17 +1,13 @@
-export async function getAlbums(page = 1, limit = 10) {
-    try {
-        const response = await fetch(`index.php?component=albums&page=${page}&limit=${limit}`, {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching albums:', error);
-        return { error: 'Failed to fetch albums' };
+export async function getAlbums(page = 1, limit = 10, userId = null) {
+    let url = `index.php?component=albums&page=${page}&limit=${limit}`;
+    if (userId) {
+        url += `&user_id=${userId}`;
     }
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    return await response.json();
 }
 
 export async function createAlbum(title, description, visibility) {
@@ -34,4 +30,27 @@ export async function createAlbum(title, description, visibility) {
         console.error('Error creating album:', error);
         return { error: 'Failed to create album' };
     }
+}
+
+export async function deleteAlbum(id) {
+    try {
+        const data = new URLSearchParams({ action: 'delete', id });
+        const response = await fetch('index.php?component=albums', {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            body: data
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Error deleting album:', error);
+        return { success: false };
+    }
+}
+
+export async function fetchAlbumPhotos(albumId) {
+    const res = await fetch(`index.php?component=photos&album_id=${albumId}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    const data = await res.json();
+    return data.results || [];
 }

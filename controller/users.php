@@ -20,6 +20,9 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete' && $is_admin) {
         $user_id = intval($_POST['id']);
         $delete_result = deleteUser($pdo, $user_id);
+        if ($delete_result) {
+            logDeletion('user', $user_id, 'user');
+        }
 
         header('Content-Type: application/json');
         echo json_encode(['success' => $delete_result]);

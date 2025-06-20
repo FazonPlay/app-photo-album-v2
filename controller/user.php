@@ -60,6 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password_hash = password_hash($password, PASSWORD_BCRYPT);
             $result = insertUser($pdo, $username, $email, $password_hash, $roles, $is_active);
             if ($result === true) {
+                $userId = $pdo->lastInsertId();
+                logCreation('user', $userId, $username, [
+                    'email' => $email,
+                    'role' => $roles
+                ]);
+            }            if ($result === true) {
+//                logRegistration($userId, $username); doesnt work atm
                 header("Location: index.php?component=users");
                 exit;
             } else {
@@ -78,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $prep->bindValue(':is_active', $is_active, PDO::PARAM_INT);
                 $prep->bindValue(':id', $userId, PDO::PARAM_INT);
                 $prep->execute();
+                logUpdate('user', $userId, $username);
 
                 header("Location: index.php?component=users");
                 exit;
@@ -86,7 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    // Repopulate form fields
     $userData = [
         'user_id' => $_POST['user_id'] ?? '',
         'username' => $username,

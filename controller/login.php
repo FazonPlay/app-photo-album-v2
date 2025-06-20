@@ -23,14 +23,17 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
         if (!$user) {
             $errors[] = "User not found";
         }
-        elseif (!password_verify($password, $user['password_hash'])) { // use password_hash instead of password
-                $errors[] = "Invalid password";
-            } else {
+        elseif (!password_verify($password, $user['password_hash'])) {
+            $errors[] = "Invalid password";
+        } else {
             $_SESSION["auth"] = true;
             $_SESSION["username"] = $user['username'];
             $_SESSION["role"] = $user['roles'];
             $_SESSION["is_admin"] = ($user['roles'] === 'admin');
-            $_SESSION['user_id'] = $user['user_id']; // CORRECT - match database column name
+            $_SESSION['user_id'] = $user['user_id'];
+
+            logLogin($user['user_id'], $user['username'], $user['roles']);
+
             header("Content-Type: application/json");
             echo json_encode(['authentication' => true]);
             exit();
