@@ -42,6 +42,9 @@ $currentComponent = $_GET['component'] ?? 'landing';
                 <li class="<?php echo $currentComponent === 'invitations' ? 'active' : ''; ?>">
                     <a href="?component=invitations"><i class="fas fa-share-alt"></i> Invitations</a>
                 </li>
+                <li class="<?php echo $currentComponent === 'profile' ? 'active' : ''; ?>">
+                    <a href="?component=profile"><i class="fas fa-share-alt"></i> Edit Profile</a>
+                </li>
             <?php else: ?>
                 <li class="<?php echo $currentComponent === 'landing' ? 'active' : ''; ?>">
                     <a href="?component=landing"><i class="fas fa-home"></i> Dashboard</a>
@@ -60,6 +63,9 @@ $currentComponent = $_GET['component'] ?? 'landing';
                 </li>
                 <li class="<?php echo $currentComponent === 'invitations' ? 'active' : ''; ?>">
                     <a href="?component=invitations"><i class="fas fa-share-alt"></i> Invitations</a>
+                </li>
+                <li class="<?php echo $currentComponent === 'profile' ? 'active' : ''; ?>">
+                    <a href="?component=profile"><i class="fas fa-share-alt"></i> Edit Profile</a>
                 </li>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <li>

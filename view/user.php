@@ -3,7 +3,6 @@
  * @var string $action
  */
 require("_partials/errors.php");
-//require '_partials/sidebar.php';
 ?>
 <div class="user-form-container">
     <form action="" id="user-form" method="post" autocomplete="off">

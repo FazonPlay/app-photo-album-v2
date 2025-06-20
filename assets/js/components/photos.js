@@ -29,12 +29,16 @@ export const refreshPhotoList = async (page = 1) => {
     <div class="photo-fav-icon" data-id="${photo.photo_id}" data-fav="${photo.is_favorite ? 1 : 0}" title="${photo.is_favorite ? 'Unfavorite' : 'Favorite'}" style="position:absolute;top:8px;right:8px;cursor:pointer;font-size:1.5em;">
         ${photo.is_favorite ? '❤️' : '🤍'}
     </div>
-    <img src="${photo.thumbnail_path || photo.file_path}" alt="${photo.title}" class="view-photo-img" data-filepath="${photo.file_path}">
-    <div class="card-body">
-        <div class="card-title">${photo.title}</div>
-        <div style="display: flex; gap: 5px; margin-top: 8px;">
-            <button class="edit-photo-btn" data-id="${photo.photo_id}" data-title="${photo.title}" data-description="${photo.description || ''}" data-filepath="${photo.file_path}">Edit</button>
-            <button class="delete-photo-btn" data-id="${photo.photo_id}">Delete</button>
+    <div class="photo-thumbnail">
+        <img src="${photo.thumbnail_path || photo.file_path}" alt="${photo.title}" class="view-photo-img" data-filepath="${photo.file_path}">
+    </div>
+    <div class="album-info">
+        <h3>${photo.title}</h3>
+        <div class="album-actions">
+            <button class="edit-photo-btn album-btn" data-id="${photo.photo_id}" data-title="${photo.title}" data-description="${photo.description || ''}" data-filepath="${photo.file_path}">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="delete-photo-btn album-btn" style="background: #e11d48; color: #fff;" data-id="${photo.photo_id}">Delete</button>
         </div>
     </div>
 </div>

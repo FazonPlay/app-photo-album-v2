@@ -99,3 +99,12 @@ works to a certain degree, needs more details like what was changed etc
 [2025-06-20 16:53:45] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
 [2025-06-20 16:53:47] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
 [2025-06-20 16:55:26] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 16:56:01] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 18:51:54] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 18:51:56] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 19:00:26] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 19:00:44] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 19:00:47] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 19:14:06] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 19:24:57] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 19:25:00] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
