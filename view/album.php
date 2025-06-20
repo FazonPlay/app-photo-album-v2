@@ -32,7 +32,7 @@ $selectedIds = array_column($allPhotos, 'photo_id');
             </select>
         </div>
 
-        <!-- Hidden checkboxes that are toggled by JS -->
+        <!-- Hidden checkboxes for photo selection -->
         <div id="photo-checkboxes" style="display:none;">
             <?php foreach ($allAvailablePhotos as $photo): ?>
                 <input
@@ -48,19 +48,6 @@ $selectedIds = array_column($allPhotos, 'photo_id');
             <button type="button" class="btn btn-secondary" onclick="window.location.href='index.php?component=albums'">Return</button>
             <button type="submit" class="btn-primary">Create/Update Album</button>
         </div>
-
-        <?php if (($albumData['album_id'] ?? 0) > 0 && (isAdmin() || isAlbumOwner($albumData, $_SESSION['user_id']))): ?>
-            <form id="invite-user-form">
-                <input type="email" name="email" placeholder="Invite by email">
-                <select name="permission">
-                    <option value="view">View</option>
-                    <option value="comment">Comment</option>
-                    <option value="contribute">Contribute</option>
-                </select>
-                <input type="text" name="message" placeholder="Message (optional)">
-                <button type="submit">Send Invite</button>
-            </form>
-        <?php endif; ?>
     </form>
 
     <!-- Photo Grid Column -->
@@ -80,13 +67,27 @@ $selectedIds = array_column($allPhotos, 'photo_id');
     </div>
 </div>
 
+<!-- ✅ Invite form moved OUTSIDE the album form -->
+<?php if (($albumData['album_id'] ?? 0) > 0 && (isAdmin() || isAlbumOwner($albumData, $_SESSION['user_id']))): ?>
+    <form id="invite-user-form" style="margin: 24px auto; max-width: 600px;">
+        <input type="email" name="email" placeholder="Invite by email" required>
+        <select name="permission">
+            <option value="view">View</option>
+            <option value="comment">Comment</option>
+            <option value="contribute">Contribute</option>
+        </select>
+        <input type="text" name="message" placeholder="Message (optional)">
+        <button type="submit">Send Invite</button>
+    </form>
+<?php endif; ?>
+
 <script type="module">
     import { setupAlbumInviteForm } from './assets/js/components/albums.js';
     setupAlbumInviteForm(<?= json_encode($albumData['album_id'] ?? 0) ?>);
 
     // Toggle photo selection
     const photoGrid = document.getElementById('photo-grid');
-    photoGrid.addEventListener('click', (e) => {
+    photoGrid?.addEventListener('click', (e) => {
         const item = e.target.closest('.photo-item');
         if (!item) return;
 

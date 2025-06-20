@@ -6,8 +6,6 @@ function cleanString(string $value): string
 }
 
 
-// ...existing code...
-
 function isAdmin()
 {
     return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
