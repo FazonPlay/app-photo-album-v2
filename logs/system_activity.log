@@ -86,3 +86,5 @@ works to a certain degree, needs more details like what was changed etc
 [2025-06-20 14:23:22] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
 [2025-06-20 14:23:30] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
 [2025-06-20 14:23:45] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-20 14:26:28] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-20 14:39:29] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1

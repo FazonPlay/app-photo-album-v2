@@ -29,11 +29,11 @@ export const refreshPhotoList = async (page = 1) => {
     <div class="photo-fav-icon" data-id="${photo.photo_id}" data-fav="${photo.is_favorite ? 1 : 0}" title="${photo.is_favorite ? 'Unfavorite' : 'Favorite'}" style="position:absolute;top:8px;right:8px;cursor:pointer;font-size:1.5em;">
         ${photo.is_favorite ? '❤️' : '🤍'}
     </div>
-    <img src="${photo.thumbnail_path || photo.file_path}" alt="${photo.title}">
+    <img src="${photo.thumbnail_path || photo.file_path}" alt="${photo.title}" class="view-photo-img" data-filepath="${photo.file_path}">
     <div class="card-body">
         <div class="card-title">${photo.title}</div>
         <div style="display: flex; gap: 5px; margin-top: 8px;">
-            <button class="edit-photo-btn" data-id="${photo.photo_id}" data-title="${photo.title}" data-description="${photo.description || ''}">Edit</button>
+            <button class="edit-photo-btn" data-id="${photo.photo_id}" data-title="${photo.title}" data-description="${photo.description || ''}" data-filepath="${photo.file_path}">Edit</button>
             <button class="delete-photo-btn" data-id="${photo.photo_id}">Delete</button>
         </div>
     </div>
@@ -42,6 +42,7 @@ export const refreshPhotoList = async (page = 1) => {
 
     setupDeletePhotoButtons();
     setupFavoritePhotoButtons();
+    setupPhotoViewButtons();
     setupEditPhotoButtons();
 
 
@@ -129,17 +130,20 @@ export const handleAddPhoto = () => {
         }
     });
 };
-const showPhotoEditModal = (id, title, description) => {
+const showPhotoEditModal = (id, title, description, filePath) => {
     // Create modal HTML
     const modalHtml = `
     <div class="modal fade" id="editPhotoModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Photo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="mb-3 text-center">
+                        <img src="${filePath}" alt="${title}" style="max-width: 100%; max-height: 500px;" class="img-fluid">
+                    </div>
                     <form id="edit-photo-form">
                         <input type="hidden" id="edit-photo-id" value="${id}">
                         <div class="mb-3">
@@ -159,6 +163,8 @@ const showPhotoEditModal = (id, title, description) => {
             </div>
         </div>
     </div>`;
+
+    // Rest of the function remains the same...
 
     // Add modal to document
     const existingModal = document.getElementById('editPhotoModal');
@@ -190,7 +196,46 @@ const setupEditPhotoButtons = () => {
             const id = btn.dataset.id;
             const title = btn.dataset.title;
             const description = btn.dataset.description;
-            showPhotoEditModal(id, title, description);
+            const filePath = btn.dataset.filepath;
+            showPhotoEditModal(id, title, description, filePath);
         });
     });
 };
+
+const showPhotoViewModal = (filePath) => {
+    // Create modal HTML
+    const modalHtml = `
+    <div class="modal fade" id="viewPhotoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="${filePath}" class="img-fluid" alt="Full resolution image">
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    // Add modal to document
+    const existingModal = document.getElementById('viewPhotoModal');
+    if (existingModal) existingModal.remove();
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('viewPhotoModal'));
+    modal.show();
+};
+
+const setupPhotoViewButtons = () => {
+    document.querySelectorAll('.view-photo-img').forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default navigation
+            const filePath = img.dataset.filepath;
+            showPhotoViewModal(filePath);
+        });
+    });
+};
+
