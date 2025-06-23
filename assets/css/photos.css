@@ -1,0 +1,161 @@
+.photo-page {
+    /* Remove margin-left */
+    /* margin-left: 260px; */
+    padding: 32px 40px;
+    min-height: 100vh;
+    background: #f7f8fa;
+    flex: 1; /* Add this for flex grow */
+}
+
+.photo-header {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.photo-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 0;
+}
+
+#add-photo-form {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+}
+
+#add-photo-form input[type="text"],
+#add-photo-form input[type="file"] {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #fff;
+}
+
+#add-photo-form .btn-primary {
+    background: #2d72d9;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#add-photo-form .btn-primary:hover {
+    background: #1a4e96;
+}
+
+#photo-errors {
+    color: #b91c1c;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-top: 8px;
+    font-size: 0.98rem;
+}
+
+.user-select {
+    width: 200px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    font-size: 1rem;
+    margin-top: 8px;
+}
+
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.photo-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s;
+}
+
+.photo-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+}
+
+.photo-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: #e5e7eb;
+}
+
+.photo-card .card-body {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.photo-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+}
+
+.photo-card .delete-photo-btn {
+    background: #e11d48;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: background 0.2s;
+}
+
+.photo-card .delete-photo-btn:hover {
+    background: #be123c;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 32px;
+}
+
+.pagination .page-item {
+    list-style: none;
+}
+
+.pagination .page-link {
+    display: block;
+    padding: 7px 14px;
+    border-radius: 5px;
+    background: #fff;
+    color: #2d72d9;
+    border: 1px solid #d1d5db;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.pagination .page-item.active .page-link,
+.pagination .page-link:hover {
+    background: #2d72d9;
+    color: #fff;
+}
+
