@@ -24,7 +24,6 @@ function getPhotos(PDO $pdo, int $page = 1, int $itemsPerPage = 20, $tagFilter =
         $prep->execute();
         $photos = $prep->fetchAll(PDO::FETCH_ASSOC);
 
-        // Process tags into arrays
         foreach ($photos as &$photo) {
             $photo['tags'] = $photo['tags'] ? explode(',', $photo['tags']) : [];
         }

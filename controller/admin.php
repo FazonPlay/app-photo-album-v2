@@ -14,7 +14,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 $totalUsers = getTotalUsers($pdo);
 $totalAlbums = getTotalAlbums($pdo);
 $totalPhotos = getTotalPhotos($pdo);
-//$diskUsage = getDiskUsage($pdo);
+$diskUsage = getDiskUsage($pdo);
 $recentUsers = getRecentUsers($pdo, 5);
 
 $recentActivity = [];

@@ -1,7 +1,4 @@
 <?php
-/**
- * @var PDO $pdo
- */
 
 function getUserData($pdo, $userId) {
     $query = "SELECT u.*, up.profile_picture

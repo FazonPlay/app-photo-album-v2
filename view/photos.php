@@ -2,13 +2,11 @@
     <?php require "_partials/sidebar.php"; ?>
     <div class="photo-page">
         <div class="photo-header">
-            <!-- Add this inside view/photos.php right after the photo-header div -->
             <div class="filter-container">
                 <form id="photo-filter-form">
                     <div class="form-row">
                         <input type="text" id="tag-filter" name="tag" placeholder="Filter by tag" list="available-tags">
                         <datalist id="available-tags">
-                            <!-- Will be populated via JavaScript -->
                         </datalist>
                         <button type="submit" class="btn-secondary">Filter</button>
                         <button type="reset" class="btn-outline" id="clear-filters">Clear</button>

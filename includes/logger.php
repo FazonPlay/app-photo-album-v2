@@ -1,13 +1,4 @@
 <?php
-/**
- * Log system activity to file
- *
- * @param string $action The action performed (login, logout, create, update, delete, etc)
- * @param string|null $entityType Type of entity (user, album, photo, etc)
- * @param int|null $entityId ID of the entity
- * @param string|null $details Additional details about the action
- * @return bool Success status
- */
 function logActivity(string $action, ?string $entityType = null, ?int $entityId = null, ?string $details = null): bool {
     $logDir = __DIR__ . '/../logs';
     if (!is_dir($logDir)) {
@@ -39,9 +30,7 @@ function logActivity(string $action, ?string $entityType = null, ?int $entityId 
     return (bool)file_put_contents($logFile, $logEntry, FILE_APPEND | LOCK_EX);
 }
 
-/**
- * Log user login
- */
+
 function logLogin(int $userId, string $username, ?string $role = null, bool $success = true, ?string $failReason = null): bool {
     $role = $role ?? $_SESSION['role'] ?? 'user';
 
@@ -61,18 +50,13 @@ function logLogin(int $userId, string $username, ?string $role = null, bool $suc
     return logActivity($success ? 'login' : 'login_failed', $role, $userId, $details);
 }
 
-/**
- * Log user logout
- */
+
 function logLogout(): bool {
     $role = $_SESSION['role'] ?? 'user';
     return logActivity('logout', $role, $_SESSION['user_id'] ?? null, 'User logged out');
 }
 
-/**
- * Log user registration
- * Fixed to properly handle new user registration with correct user ID
- */
+
 function logRegistration(int $userId, string $username, string $email = '', string $role = 'user'): bool {
     $details = "New user registered: $username";
     if (!empty($email)) {
@@ -83,13 +67,10 @@ function logRegistration(int $userId, string $username, string $email = '', stri
     return logActivity('register', 'user', $userId, $details);
 }
 
-/**
- * Log entity creation with enhanced details
- */
+
 function logCreation(string $entityType, int $entityId, string $name, array $additionalInfo = []): bool {
     $details = "$entityType '$name' was created";
 
-    // Add additional context based on entity type
     if (!empty($additionalInfo)) {
         switch ($entityType) {
             case 'album':
@@ -104,9 +85,6 @@ function logCreation(string $entityType, int $entityId, string $name, array $add
                 if (isset($additionalInfo['album_name'])) {
                     $details .= " | Album: " . $additionalInfo['album_name'];
                 }
-                if (isset($additionalInfo['file_size'])) {
-                    $details .= " | Size: " . formatBytes($additionalInfo['file_size']);
-                }
                 break;
             case 'user':
                 if (isset($additionalInfo['role'])) {
@@ -119,19 +97,14 @@ function logCreation(string $entityType, int $entityId, string $name, array $add
     return logActivity('create', $entityType, $entityId, $details);
 }
 
-/**
- * Log entity update with detailed change information
- */
 function logUpdate(string $entityType, int $entityId, string $name, array $changes = [], array $oldValues = []): bool {
     $details = "$entityType '$name' was updated";
 
-    // Add specific change details
     if (!empty($changes)) {
         $changeDetails = [];
         foreach ($changes as $field => $newValue) {
             $oldValue = $oldValues[$field] ?? 'N/A';
 
-            // Handle sensitive fields
             if (in_array($field, ['password', 'password_hash'])) {
                 $changeDetails[] = "$field: [CHANGED]";
             } else {
@@ -154,9 +127,6 @@ function logUpdate(string $entityType, int $entityId, string $name, array $chang
     return logActivity('update', $entityType, $entityId, $details);
 }
 
-/**
- * Log entity deletion with proper name resolution
- */
 function logDeletion(string $entityType, int $entityId, string $name = '', array $additionalInfo = []): bool {
     // If name is empty, try to get it from additional info or use generic name
     if (empty($name)) {
@@ -165,7 +135,6 @@ function logDeletion(string $entityType, int $entityId, string $name = '', array
 
     $details = "$entityType '$name' was deleted";
 
-    // Add context based on entity type
     switch ($entityType) {
         case 'user':
             if (isset($additionalInfo['role'])) {
@@ -205,9 +174,6 @@ function logDeletion(string $entityType, int $entityId, string $name = '', array
     return logActivity('delete', $entityType, $entityId, $details);
 }
 
-/**
- * Log album access changes (invitations, permissions)
- */
 function logAlbumAccess(string $action, int $albumId, string $albumName, int $targetUserId, string $targetUsername, string $permission, array $additionalInfo = []): bool {
     $details = match($action) {
         'invite_sent' => "Invitation sent to '$targetUsername' for album '$albumName' | Permission: $permission",

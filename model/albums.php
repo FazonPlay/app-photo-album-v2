@@ -4,7 +4,6 @@ function getAlbums(PDO $pdo, int $page = 1, int $itemsPerPage = 20, ?int $userId
     $offset = ($page - 1) * $itemsPerPage;
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Ensure limit and offset are valid integers to prevent SQL injection
     $limit = (int)$itemsPerPage;
     $offset = (int)$offset;
 
@@ -12,11 +11,9 @@ function getAlbums(PDO $pdo, int $page = 1, int $itemsPerPage = 20, ?int $userId
     $whereClause = "";
 
     if ($userId !== null) {
-        // Admin or filtered by user ID
         $whereClause = "WHERE a.user_id = :user_id";
         $params[':user_id'] = $userId;
     } else if (isset($_SESSION['user_id']) && (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin')) {
-        // Regular user: show their own, public, or shared albums
         $currentUserId = $_SESSION['user_id'];
         $whereClause = "WHERE (a.user_id = :user_id OR a.visibility = 'public' 
             OR EXISTS (SELECT 1 FROM album_access aa WHERE aa.album_id = a.album_id AND aa.user_id = :user_id))";
@@ -82,7 +79,6 @@ function getAlbumsByTag(PDO $pdo, int $userId, string $tag, int $page = 1, int $
     $offset = ($page - 1) * $itemsPerPage;
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Only albums the user owns or has access to
     $query = "
         SELECT DISTINCT a.*, 
             p.thumbnail_path, p.file_path,

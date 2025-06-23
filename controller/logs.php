@@ -1,6 +1,4 @@
 <?php
-// controller/logs.php - Add pagination logic
-// Ensure only admins can access this page
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     echo '<div class="alert alert-danger">Access Denied: Administrator privileges required.</div>';
     exit();
@@ -8,26 +6,16 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 
 registerCss("assets/css/dashboard.css");
 
-// Get logs data
 $logFile = __DIR__ . '/../logs/system_activity.log';
 $logs = [];
 
 if (file_exists($logFile)) {
     $logLines = file($logFile);
 
-    // Parse each log line into structured data
     foreach ($logLines as $line) {
         $line = trim($line);
         if (empty($line)) continue;
 
-        // Skip comment lines
-        if (strpos($line, 'logRegistration() not working properly') !== false ||
-            strpos($line, 'same thing for photos') !== false ||
-            strpos($line, 'works to a certain degree') !== false) {
-            continue;
-        }
-
-        // Parse timestamp
         if (preg_match('/\[(.*?)\]/', $line, $timeMatch)) {
             $timestamp = $timeMatch[1];
             $restOfLine = trim(substr($line, strlen($timeMatch[0])));
@@ -53,7 +41,15 @@ if (file_exists($logFile)) {
     }
 }
 
-// Apply filters if provided
+// Extract all unique usernames from logs
+$allUsernames = [];
+foreach ($logs as $log) {
+    if (isset($log['username']) && !empty($log['username']) && !in_array($log['username'], $allUsernames)) {
+        $allUsernames[] = $log['username'];
+    }
+}
+sort($allUsernames); // Sort alphabetically
+
 if (!empty($_GET['filter'])) {
     $filter = $_GET['filter'];
     $filteredLogs = [];
@@ -86,27 +82,22 @@ if (!empty($_GET['filter'])) {
     $logs = $filteredLogs;
 }
 
-// Reverse to show newest logs first
 $logs = array_reverse($logs);
 
-// Pagination logic
 $perPage = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 20;
 $totalLogs = count($logs);
 $totalPages = ceil($totalLogs / $perPage);
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-// Ensure current page is valid
 if ($currentPage < 1) {
     $currentPage = 1;
 } elseif ($currentPage > $totalPages && $totalPages > 0) {
     $currentPage = $totalPages;
 }
 
-// Calculate the slice of logs to display
 $offset = ($currentPage - 1) * $perPage;
 $paginatedLogs = array_slice($logs, $offset, $perPage);
 
-// Pass the paginated logs to the view
 $logs = $paginatedLogs;
 
 require 'view/logs.php';

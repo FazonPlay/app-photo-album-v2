@@ -51,7 +51,7 @@ $displayName = $user ? (trim($user->first_name . ' ' . $user->last_name) ?: $use
                     <a href="?component=photos"><i class="fas fa-camera"></i> All Photos</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'landing' ? 'active' : ''; ?>">
-                    <a href="?component=landing"><i class="fas fa-cog"></i> User Dashboard</a>
+                    <a href="?component=landing"><i class="fas fa-home"></i> User Dashboard</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'favorites' ? 'active' : ''; ?>">
                     <a href="?component=favorites"><i class="fas fa-heart"></i> Favorites</a>
@@ -60,18 +60,19 @@ $displayName = $user ? (trim($user->first_name . ' ' . $user->last_name) ?: $use
                     <a href="?component=shared"><i class="fas fa-share-alt"></i> Shared with Me</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'invitations' ? 'active' : ''; ?>">
-                    <a href="?component=invitations"><i class="fas fa-share-alt"></i> Invitations</a>
+                    <a href="?component=invitations"><i class="fas fa-envelope"></i> Invitations</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'profile' ? 'active' : ''; ?>">
-                    <a href="?component=profile"><i class="fas fa-share-alt"></i> Edit Profile</a>
+                    <a href="?component=profile"><i class="fas fa-user-edit"></i> Edit Profile</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'albums_public' ? 'active' : ''; ?>">
-                    <a href="?component=albums_public"><i class="fas fa-images"></i> Public Albums</a>
+                    <a href="?component=albums_public"><i class="fas fa-globe"></i> Public Albums</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'logs' ? 'active' : ''; ?>">
-                    <a href="?component=logs"><i class="fas fa-images"></i> Logs</a>
+                    <a href="?component=logs"><i class="fas fa-clipboard-list"></i> Logs</a>
                 </li>
             <?php else: ?>
+                <!-- Non-admin menu items with updated icons -->
                 <li class="<?php echo $currentComponent === 'landing' ? 'active' : ''; ?>">
                     <a href="?component=landing"><i class="fas fa-home"></i> Dashboard</a>
                 </li>
@@ -88,13 +89,13 @@ $displayName = $user ? (trim($user->first_name . ' ' . $user->last_name) ?: $use
                     <a href="?component=shared"><i class="fas fa-share-alt"></i> Shared with Me</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'invitations' ? 'active' : ''; ?>">
-                    <a href="?component=invitations"><i class="fas fa-share-alt"></i> Invitations</a>
+                    <a href="?component=invitations"><i class="fas fa-envelope"></i> Invitations</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'profile' ? 'active' : ''; ?>">
-                    <a href="?component=profile"><i class="fas fa-share-alt"></i> Edit Profile</a>
+                    <a href="?component=profile"><i class="fas fa-user-edit"></i> Edit Profile</a>
                 </li>
                 <li class="<?php echo $currentComponent === 'albums_public' ? 'active' : ''; ?>">
-                    <a href="?component=albums_public"><i class="fas fa-images"></i> Public Albums</a>
+                    <a href="?component=albums_public"><i class="fas fa-globe"></i> Public Albums</a>
                 </li>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <li>

@@ -1,8 +1,3 @@
-
-
-<!---->
-
-
 <div class="auth-container">
     <div class="auth-form">
         <h1>Log In to Your Account</h1>
@@ -32,7 +27,7 @@
         </div>
     </div>
 </div>
-<!--<script src="./assets/js/services/login.js"></script>-->
+
 <script type="module">
     import { login } from "./assets/js/services/login.js";
 

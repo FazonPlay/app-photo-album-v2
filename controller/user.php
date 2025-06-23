@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $confirmation = $_POST['confirmation'] ?? '';
 
-    // Validation
     if ($username === '') $errors[] = "Username is required.";
     if ($email === '') $errors[] = "Email is required.";
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Invalid email format.";
@@ -77,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password_hash = $password !== '' ? password_hash($password, PASSWORD_BCRYPT) : null;
             $result = updateUser($pdo, $userId, $username, $password_hash);
             if ($result === true) {
-                // Optionally update email, roles, is_active
                 $query = "UPDATE users SET email = :email, roles = :roles, is_active = :is_active WHERE user_id = :id";
                 $prep = $pdo->prepare($query);
                 $prep->bindValue(':email', $email);

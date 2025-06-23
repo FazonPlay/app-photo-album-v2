@@ -19,3 +19,12 @@
 [2025-06-23 00:47:18] User ID: 5 | Username: admin | Action: logout | Entity: admin | ID: 5 | Details: User logged out | IP: 192.168.1.179
 [2025-06-23 02:47:55] User ID: 5 | Username: admin | Action: login | Entity: admin | ID: 5 | Details: Administrator 'admin' logged in | IP: 192.168.1.179
 [2025-06-23 03:40:56] User ID: 5 | Username: admin | Action: login | Entity: admin | ID: 5 | Details: Administrator 'admin' logged in | IP: 192.168.1.179
+[2025-06-23 04:27:48] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-23 05:01:14] User ID: 1 | Username: admin | Action: delete | Entity: album | ID: 19 | Details: album 'well hello again lil cro' was deleted | Photos deleted: 1 | Was private | IP: 127.0.0.1
+[2025-06-23 05:18:38] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-23 05:18:42] User ID: 23 | Username: user | Action: login | Entity: user | ID: 23 | Details: Regular user 'user' logged in | IP: 127.0.0.1
+[2025-06-23 05:18:53] User ID: 23 | Username: user | Action: logout | Entity: user | ID: 23 | Details: User logged out | IP: 127.0.0.1
+[2025-06-23 05:19:00] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-23 05:27:31] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
+[2025-06-23 05:58:40] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-23 05:58:53] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 1 | Details: user 'admin' was updated | Changes: profile_picture: 'N/A' → 'uploads/profile_pictures/profi...' | IP: 127.0.0.1

@@ -36,7 +36,6 @@ export const refreshFavoriteList = async (page = 1) => {
 
     setupFavoritePhotoButtons();
 
-    // Pagination
     const total = data.count || 0;
     const itemsPerPage = 20;
     const totalPages = Math.ceil(total / itemsPerPage);
@@ -69,7 +68,6 @@ const setupFavoritePhotoButtons = () => {
                 icon.title = result.is_favorite ? 'Unfavorite' : 'Favorite';
                 if (!result.is_favorite) {
                     showToast('Photo removed from favorites', 'bg-danger');
-                    // Remove from list if unfavorited
                     icon.closest('.photo-card').remove();
                 }
             }

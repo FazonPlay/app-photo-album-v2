@@ -5,7 +5,6 @@
         </div>
 
         <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4 pt-4">
-            <!-- Rest of your existing code -->
 
             <div class="card mb-4">
                 <div class="card-header">
@@ -25,10 +24,11 @@
                                     <label for="filter-username" class="form-label">Username:</label>
                                     <select id="filter-username" name="filter[username]" class="form-select">
                                         <option value="">All Users</option>
-                                        <option value="admin" <?= (isset($_GET['filter']['username']) && $_GET['filter']['username'] === 'admin') ? 'selected' : '' ?>>admin</option>
-                                        <option value="user" <?= (isset($_GET['filter']['username']) && $_GET['filter']['username'] === 'user') ? 'selected' : '' ?>>user</option>
-                                        <option value="Guest" <?= (isset($_GET['filter']['username']) && $_GET['filter']['username'] === 'Guest') ? 'selected' : '' ?>>Guest</option>
-                                        <option value="umhello" <?= (isset($_GET['filter']['username']) && $_GET['filter']['username'] === 'umhello') ? 'selected' : '' ?>>umhello</option>
+                                        <?php foreach ($allUsernames as $username): ?>
+                                            <option value="<?= htmlspecialchars($username) ?>" <?= (isset($_GET['filter']['username']) && $_GET['filter']['username'] === $username) ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($username) ?>
+                                            </option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -106,24 +106,19 @@
                         </table>
                     </div>
 
-                    <!-- Pagination Controls -->
                     <?php if ($totalPages > 1): ?>
                         <nav aria-label="Log pagination">
                             <ul class="pagination justify-content-center mt-4">
-                                <!-- Previous page link -->
                                 <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
                                     <a class="page-link" href="?component=logs<?= http_build_query(array_merge($_GET, ['page' => $currentPage - 1])) ?>" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
 
-                                <!-- Page number links -->
                                 <?php
-                                // Display limited page numbers with ellipsis
                                 $startPage = max(1, $currentPage - 2);
                                 $endPage = min($totalPages, $currentPage + 2);
 
-                                // Always show first page
                                 if ($startPage > 1) {
                                     echo '<li class="page-item"><a class="page-link" href="?component=logs&' .
                                         http_build_query(array_merge($_GET, ['page' => 1])) . '">1</a></li>';
@@ -132,7 +127,6 @@
                                     }
                                 }
 
-                                // Display page numbers
                                 for ($i = $startPage; $i <= $endPage; $i++) {
                                     echo '<li class="page-item ' . ($i == $currentPage ? 'active' : '') . '">';
                                     echo '<a class="page-link" href="?component=logs&' .
@@ -140,7 +134,6 @@
                                     echo '</li>';
                                 }
 
-                                // Always show last page
                                 if ($endPage < $totalPages) {
                                     if ($endPage < $totalPages - 1) {
                                         echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
@@ -150,7 +143,6 @@
                                 }
                                 ?>
 
-                                <!-- Next page link -->
                                 <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
                                     <a class="page-link" href="?component=logs&<?= http_build_query(array_merge($_GET, ['page' => $currentPage + 1])) ?>" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>

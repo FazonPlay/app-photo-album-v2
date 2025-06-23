@@ -4,7 +4,6 @@ function getUserProfile(PDO $pdo, int $user_id): array|string
 {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Get user data
     $query = "SELECT u.user_id, u.username, u.email, u.roles 
               FROM users u 
               WHERE u.user_id = :user_id";
@@ -20,7 +19,6 @@ function getUserProfile(PDO $pdo, int $user_id): array|string
             return "User not found";
         }
 
-        // Get profile data
         $query = "SELECT p.first_name, p.last_name, p.bio, p.profile_picture 
                   FROM user_profiles p 
                   WHERE p.user_id = :user_id";
@@ -30,7 +28,6 @@ function getUserProfile(PDO $pdo, int $user_id): array|string
         $prep->execute();
         $profileData = $prep->fetch(PDO::FETCH_ASSOC);
 
-        // Merge user and profile data
         return array_merge($userData, $profileData ?: []);
 
     } catch (PDOException $e) {
@@ -45,7 +42,6 @@ function updateUserProfile(PDO $pdo, int $user_id, array $data): bool|string
     try {
         $pdo->beginTransaction();
 
-        // Update username and email in users table
         $query = "UPDATE users SET username = :username, email = :email WHERE user_id = :user_id";
         $prep = $pdo->prepare($query);
         $prep->bindValue(':username', $data['username']);
@@ -53,7 +49,6 @@ function updateUserProfile(PDO $pdo, int $user_id, array $data): bool|string
         $prep->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $prep->execute();
 
-        // Check if password needs updating
         if (!empty($data['password'])) {
             $query = "UPDATE users SET password_hash = :password_hash WHERE user_id = :user_id";
             $prep = $pdo->prepare($query);
@@ -62,7 +57,6 @@ function updateUserProfile(PDO $pdo, int $user_id, array $data): bool|string
             $prep->execute();
         }
 
-        // Check if profile exists for this user
         $query = "SELECT profile_id FROM user_profiles WHERE user_id = :user_id";
         $prep = $pdo->prepare($query);
         $prep->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -70,13 +64,11 @@ function updateUserProfile(PDO $pdo, int $user_id, array $data): bool|string
         $profileExists = $prep->fetch(PDO::FETCH_ASSOC);
 
         if ($profileExists) {
-            // Update existing profile
             $query = "UPDATE user_profiles 
                       SET first_name = :first_name, 
                           last_name = :last_name, 
                           bio = :bio";
 
-            // Add profile picture to query if provided
             if (!empty($data['profile_picture'])) {
                 $query .= ", profile_picture = :profile_picture";
             }
@@ -96,7 +88,6 @@ function updateUserProfile(PDO $pdo, int $user_id, array $data): bool|string
             $prep->execute();
 
         } else {
-            // Create new profile
             $query = "INSERT INTO user_profiles (user_id, first_name, last_name, bio, profile_picture)
                       VALUES (:user_id, :first_name, :last_name, :bio, :profile_picture)";
 

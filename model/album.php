@@ -43,10 +43,8 @@ function updateAlbum(PDO $pdo, int $albumId, string $title, string $description,
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     try {
-        // Begin transaction for consistency
         $pdo->beginTransaction();
 
-        // Update album details
         $query = "UPDATE albums SET title = :title, description = :description, visibility = :visibility WHERE album_id = :id";
         $prep = $pdo->prepare($query);
         $prep->bindValue(':title', $title);
@@ -55,11 +53,9 @@ function updateAlbum(PDO $pdo, int $albumId, string $title, string $description,
         $prep->bindValue(':id', $albumId, PDO::PARAM_INT);
         $prep->execute();
 
-        // Remove all current photos from album
         $pdo->prepare("UPDATE photos SET album_id = NULL WHERE album_id = :album_id")
             ->execute([':album_id' => $albumId]);
 
-        // Add selected photos to album - FIXED
         if (!empty($photoIds)) {
             $stmt = $pdo->prepare("UPDATE photos SET album_id = :album_id WHERE photo_id = :photo_id");
             foreach ($photoIds as $photoId) {
@@ -69,7 +65,6 @@ function updateAlbum(PDO $pdo, int $albumId, string $title, string $description,
             }
         }
 
-        // Update cover photo if needed
         if (!empty($photoIds)) {
             $coverPhotoId = $photoIds[0]; // Use first photo as cover if not specified
             $pdo->prepare("UPDATE albums SET cover_photo_id = :cover_id WHERE album_id = :album_id")

@@ -1,14 +1,10 @@
-<?php
-// view/albums_public.php
-?>
+
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar column -->
         <div class="col-md-3 col-lg-2 sidebar-container">
             <?php require "_partials/sidebar.php"; ?>
         </div>
 
-        <!-- Main content column -->
         <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4">
             <div class="container mt-4">
                 <h1>Public Photo Albums</h1>
@@ -30,7 +26,6 @@
 <script type="module">
     import { refreshPublicAlbumList } from "./assets/js/components/albums_public.js";
 
-    // Initialize the page
     document.addEventListener('DOMContentLoaded', () => {
         refreshPublicAlbumList();
     });

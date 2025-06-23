@@ -1,7 +1,7 @@
 <?php
 
 
-function getUsers(PDO $pdo, int $page = 1, int $itemsPerPage): array | string
+function getUsers(PDO $pdo, int $page = 1, int $itemsPerPage = 10): array | string
 {
     $offset = ($page - 1) * $itemsPerPage;
 

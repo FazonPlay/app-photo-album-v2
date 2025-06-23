@@ -85,8 +85,6 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
         $currentUserId = $_SESSION['user_id'] ?? 0;
         $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
-        // If a regular user tries to view all photos or another user's photos,
-        // restrict them to only their own photos
         if (!$isAdmin && ($userId === null || $userId !== $currentUserId)) {
             $userId = $currentUserId;
         }

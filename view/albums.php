@@ -20,7 +20,6 @@
             <input type="text" name="title" placeholder="Search by title">
             <button type="submit" class="btn btn-secondary">Search</button>
         </form>
-        <!-- ...existing album grid... -->
         <div class="album-grid" id="album-list"></div>
         <nav>
             <ul class="pagination" id="album-pagination"></ul>

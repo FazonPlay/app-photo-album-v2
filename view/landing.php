@@ -63,7 +63,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Albums Section -->
                 <section class="dashboard-section">
                     <div class="section-header">
                         <h2>Recent Albums</h2>
@@ -96,7 +95,6 @@
                     <?php endif; ?>
                 </section>
 
-                <!-- Favorite Photos Section -->
                 <section class="dashboard-section">
                     <div class="section-header">
                         <h2>Favorite Photos</h2>
@@ -123,7 +121,6 @@
                     <?php endif; ?>
                 </section>
 
-                <!-- Album Invitations Section -->
                 <section class="dashboard-section">
                     <div class="section-header">
                         <h2>Album Invitations</h2>

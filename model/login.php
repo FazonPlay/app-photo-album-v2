@@ -17,4 +17,3 @@ function login(PDO $pdo, string $email)
 }
 
 
-?>

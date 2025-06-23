@@ -39,7 +39,7 @@
                 <div class="stat-icon"><i class="fas fa-upload"></i></div>
                 <div class="stat-details">
                     <h3>Disk Usage</h3>
-                    <p class="stat-number">0mb</p>
+                    <p class="stat-number"><?php echo htmlspecialchars($diskUsage ?? '0MB'); ?></p>
                     <p class="stat-label">Total storage used</p>
                 </div>
             </div>

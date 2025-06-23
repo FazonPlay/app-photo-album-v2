@@ -1,6 +1,4 @@
 <?php
-
-
 function create_user(
     PDO    $pdo,
     string $username,

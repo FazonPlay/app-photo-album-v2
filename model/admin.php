@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Get total number of users in the system
- *
- * @param PDO $pdo Database connection
- * @return int Total user count
- */
 function getTotalUsers(PDO $pdo): int {
     try {
         $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM users");
@@ -18,11 +12,6 @@ function getTotalUsers(PDO $pdo): int {
     }
 }
 
-/**
- * Get total number of albums in the system
- * @param PDO $pdo Database connection
- * @return int Total album count
- */
 function getTotalAlbums(PDO $pdo): int {
     try {
         $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM albums");
@@ -35,11 +24,6 @@ function getTotalAlbums(PDO $pdo): int {
     }
 }
 
-/**
- * Get total number of photos in the system
- * @param PDO $pdo Database connection
- * @return int Total photo count
- */
 function getTotalPhotos(PDO $pdo): int {
     try {
         $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM photos");
@@ -52,32 +36,31 @@ function getTotalPhotos(PDO $pdo): int {
     }
 }
 
-/**
- * Calculate total disk usage of all photos
- * @param PDO $pdo Database connection
- * @return string Formatted disk usage
- */
-//function getDiskUsage(PDO $pdo): string {
-//    try {
-//        $stmt = $pdo->prepare("SELECT SUM(file_size) as total_size FROM photos");
-//        $stmt->execute();
-//        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-//        $totalSizeBytes = $result['total_size'] ?? 0;
-//
-//        // Convert bytes to MB
-//        return number_format($totalSizeBytes / (1024 * 1024), 2) . ' MB';
-//    } catch (PDOException $e) {
-//        error_log("Error calculating disk usage: " . $e->getMessage());
-//        return '0 MB';
-//    }
-//}
 
-/**
- * Get recent users for admin dashboard
- * @param PDO $pdo Database connection
- * @param int $limit Number of users to return
- * @return array List of recent users
- */
+function getDiskUsage(PDO $pdo): string {
+    try {
+        $stmt = $pdo->prepare("SELECT file_path, thumbnail_path FROM photos");
+        $stmt->execute();
+        $totalSizeBytes = 0;
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $filePath = __DIR__ . '/../' . $row['file_path'];
+            if (file_exists($filePath)) {
+                $totalSizeBytes += filesize($filePath);
+            }
+            if (!empty($row['thumbnail_path'])) {
+                $thumbnailPath = __DIR__ . '/../' . $row['thumbnail_path'];
+                if (file_exists($thumbnailPath)) {
+                    $totalSizeBytes += filesize($thumbnailPath);
+                }
+            }
+        }
+        return number_format($totalSizeBytes / (1024 * 1024), 2) . ' MB';
+    } catch (PDOException $e) {
+        error_log("Error calculating disk usage: " . $e->getMessage());
+        return '0 MB';
+    }
+}
+
 function getRecentUsers(PDO $pdo, int $limit = 5): array {
     $query = "SELECT user_id as id, username, email, registration_date, is_active 
               FROM users 

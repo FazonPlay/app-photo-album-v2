@@ -222,7 +222,6 @@ const showPhotoViewModal = (filePath) => {
         </div>
     </div>`;
 
-    // Add modal to document
     const existingModal = document.getElementById('viewPhotoModal');
     if (existingModal) existingModal.remove();
     document.body.insertAdjacentHTML('beforeend', modalHtml);
