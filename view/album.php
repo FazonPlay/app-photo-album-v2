@@ -67,7 +67,7 @@ $selectedIds = array_column($allPhotos, 'photo_id');
     </div>
 </div>
 
-<!-- ✅ Invite form moved OUTSIDE the album form -->
+<!--  Invite form moved OUTSIDE the album form -->
 <?php if (($albumData['album_id'] ?? 0) > 0 && (isAdmin() || isAlbumOwner($albumData, $_SESSION['user_id']))): ?>
     <form id="invite-user-form" style="margin: 24px auto; max-width: 600px;">
         <input type="email" name="email" placeholder="Invite by email" required>

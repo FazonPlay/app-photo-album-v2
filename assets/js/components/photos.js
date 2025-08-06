@@ -168,7 +168,6 @@ const showPhotoEditModal = (id, title, description, filePath) => {
         </div>
     </div>`;
 
-    // Rest of the function remains the same...
 
     // Add modal to document
     const existingModal = document.getElementById('editPhotoModal');
@@ -188,7 +187,7 @@ const showPhotoEditModal = (id, title, description, filePath) => {
         const result = await updatePhoto(photoId, newTitle, newDescription);
         if (result.success) {
             modal.hide();
-            refreshPhotoList(1);
+            await refreshPhotoList(1);
         }
     });
 };

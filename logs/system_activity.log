@@ -188,3 +188,13 @@ works to a certain degree, needs more details like what was changed etc
 [2025-06-20 22:25:30] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 1 | Details: user 'admin' was updated | Changes: profile_picture: 'N/A' → 'uploads/profile_pictures/profi...' | IP: 127.0.0.1
 [2025-06-20 22:25:36] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
 [2025-06-20 22:25:41] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-06-23 05:55:49] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: ::1
+[2025-07-04 23:02:49] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: ::1
+[2025-07-04 23:03:15] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-07-04 23:04:01] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 1 | Details: user 'admin' was updated | Changes: profile_picture: 'N/A' → 'uploads/profile_pictures/profi...' | IP: 127.0.0.1
+[2025-07-19 23:05:23] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: ::1
+[2025-07-19 23:08:09] User ID: 1 | Username: admin | Action: update | Entity: user | ID: 1 | Details: user 'admin' was updated | Changes: bio: 'N/A' → 'System administrator and nigga...' | IP: ::1
+[2025-07-19 23:50:03] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: ::1
+[2025-07-22 22:09:43] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: ::1
+[2025-08-06 17:50:41] User ID: 1 | Username: admin | Action: login | Entity: admin | ID: 1 | Details: Administrator 'admin' logged in | IP: 127.0.0.1
+[2025-08-06 17:51:09] User ID: 1 | Username: admin | Action: logout | Entity: admin | ID: 1 | Details: User logged out | IP: 127.0.0.1
